@@ -269,38 +269,27 @@ cp apps/todo-integrated/src/session.css apps/todo/src/session.css
 
 ---
 
-<!-- _class: code-text -->
+<!-- _class: compact -->
 
 ###### STEP 8
 
-# App.tsx にエージェントを組み込む
+# App.tsx の TODO を上から外す
 
-```tsx
-// App の中で、使う会話を用意する
-const { sessionId } = useSessionId(storageKey);
+`apps/todo/src/App.tsx` に ①〜⑥ の TODO コメントを置いてあります。上から順に外していけば動きます。
 
-function TodoAssistant({ add, sessionId }) {
-  const session = useSession(sessionId);
-  const client = useToolClient(session, 'todo');
+| | 場所 | やること |
+|---|---|---|
+| ① | 先頭 | SDK・`session.ts`・`session.css` を import |
+| ② | `storageKey` の下 | `SubakoSessionClient` と会話の保存キーを作る |
+| ③ | `App` の直前 | `TodoAssistant` と `list_todos` / `add_todo` |
+| ④ | ③ の中 | `set_todo_done` を自分で書く → STEP 9 |
+| ⑤ | `App` の中 | `useSessionId` で使う会話を用意する |
+| ⑥ | `return` の中 | `has-session` とサイドバーを足す |
 
-  useTool(client, 'add_todo', {
-    description: 'TODOを1件追加する。',
-    schema: z.object({
-      title: z.string().min(1),
-    }).strict(),
-    execute: ({ title }) =>
-      JSON.stringify(add(title)),
-  });
-
-  return <SubakoChat session={session} />;
-}
-```
-
-- `useSessionId` が会話を作り、ID を `localStorage` に覚える。リロードしても同じ会話が続く
-- クライアントは `new SubakoSessionClient({ baseUrl, getToken: fetchSessionToken })`。API キーは持たず、会話ごとの token を受け取る
-- `useTool` で「AI に任せる操作」を登録する。`execute` は既存の `add(title)` を呼ぶだけ
+- **④ 以外はコメントを外すだけ。** 雛形が入っています
+- `useTool` が「AI に任せる操作」。`execute` は既存の `add(title)` を呼ぶだけ
 - `schema` の Zod が引数の形を AI に伝え、実行前に検証する
-- 完成例は `apps/todo-integrated/src/App.tsx`。`SubakoProvider` で包む部分も同じファイル
+- 会話は `useSessionId` が作り、ID を `localStorage` に覚える。API キーは持たない
 
 ---
 
@@ -308,7 +297,7 @@ function TodoAssistant({ add, sessionId }) {
 
 ###### STEP 9
 
-# 動かしてみる
+# TODO ④ を自分で書く
 
 ```tsx
 useTool(client, 'set_todo_done', {
@@ -323,8 +312,9 @@ useTool(client, 'set_todo_done', {
 });
 ```
 
+- ③ の `useTool` を真似て、既存の `complete(id, done)` を呼ぶツールを足す
 - 「サンプルを起動する、テーマを決める、発表を練習する、を追加して」で 3 件増える
-- 左の完了ツールを足して「サンプルを起動する、は完了した」で完了になる
+- 「サンプルを起動する、は完了した」で完了になる
 - 手で別の TODO を完了にしてから「残りを教えて」と聞くと、変更が反映されている
 
 ---
