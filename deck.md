@@ -22,9 +22,9 @@ Kikuvi Inc.
 
 - **Wi-Fi** Plug and Play の Wi-Fi に接続（TODO: SSID とパスワード）
 - **GitHub アカウント** Codespaces を使うと環境構築なしで始められます
-- **Discord** 質問・相談は Subako Discord Server で受け付けます
+- **Discord** 質問・相談は Subako Discord Server で受け付けます。<br> ![w:200](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fdiscord.gg%2Fxxxx)
 
-![w:200](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fdiscord.gg%2Fxxxx)
+
 
 ---
 
@@ -40,7 +40,7 @@ Build Agents, Not Infrastructure
 
 # Subakoについて
 
-Concept Movie
+[Concept Movie](https://www.youtube.com/watch?v=Vpt5voDm1j8)
 
 ---
 
@@ -68,7 +68,20 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 
 ---
 
+<!-- _class: team -->
+
 # 運営メンバー
+
+本日の運営は 8 名です。詰まったら近くのメンバーか Discord にどうぞ。
+
+- ![](assets/members/kento-sato.png) **Kento Sato** 佐藤 拳斗 *Founder / CEO*
+- ![](assets/members/shun-kashiwa.png) **Shun Kashiwa** 柏 舜 *Founding Engineer*
+- ![](assets/members/masa-ishihara.png) **Masa Ishihara** 石原 正宗 *Founding AI/ML Engineer*
+- ![](assets/members/takumi-okoshi.png) **Takumi Okoshi** 大越 拓実 *AI/ML Engineer*
+- ![](assets/members/taka-nagai.png) **Takayuki Nagai** 長井 崇行 *Founding Designer*
+- ![](assets/members/hironori-kawamoto.png) **Hironori Kawamoto** 川本 博詔 *Software Engineer*
+- ![](assets/members/kosei-matsuyama.png) **Kosei Matsuyama** *Software Engineer*
+- ![](assets/members/ryuji-miyasaka.png) **Ryuji (RJ) Miyasaka**
 
 ---
 
@@ -93,7 +106,7 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 
 # ハンズオン
 
-15:15 – 15:45。普通の React TODO アプリに、皆で一緒にエージェントを組み込みます。
+普通の React TODO アプリに、皆で一緒にエージェントを組み込みます。
 
 ---
 
@@ -249,15 +262,13 @@ npm run dev -- todo
 
 ###### CONCEPT
 
-# Agent と Session
+# Agent, Session, Tool
 
-これから出てくる言葉は 3 つだけです。
+Subakoを使う上で重要になる3つの概念を整理します。
 
-- **Agent** 何をする人か。モデル・指示（`prompt.md`）・MCP をまとめた設定。`agent:publish` するたびに version が増える
-- **Session** 1 つの会話。**作った時点の agent version に結び付きます。** 履歴は Subako 側に残る
-- **Client tool** その会話にブラウザーが登録する「アプリの操作」。`useTool` で登録するのがこれ
-
-だから `prompt.md` を直して publish したら、「新しいセッション」で会話を作り直します。押すまでは前の指示のまま続きます。
+- **Agent** 何をする人か。モデル・指示（`prompt.md`）・MCP をまとめた設定。`agent:publish` するたびに version が増える。
+- **Session** 1つの会話履歴。Agentに紐付く。履歴はSubako側に残る。
+- **Tool** Agentが行うことのできる操作。*Client* toolsは、そのうちブラウザなどクライアントの関数をエージェントに提供する仕組みを指します。
 
 ---
 
@@ -298,10 +309,10 @@ npm run agent:publish -- todo
 | ⑤ | `App` の中 | `useSessionId` で使う会話を用意する |
 | ⑥ | サイドバーの中 | 置いてある `<p>` を会話に差し替える |
 
-- **④ 以外はコメントを外すだけ。** 雛形が入っています。レイアウトは触りません
+- **④ 以外はコメントを外すだけです。**
 - `useTool` が「AI に任せる操作」。`execute` は既存の `add(title)` を呼ぶだけ
 - `schema` の Zod が引数の形を AI に伝え、実行前に検証する
-- 会話は `useSessionId` が作り、ID を `localStorage` に覚える。API キーは持たない
+- 会話は `useSessionId` が作り、ID を `localStorage` に覚える。ブラウザはAPIキーを持たず、セッションに閉じたトークンをVite Dev Serverから取得します。
 
 ---
 
@@ -371,7 +382,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 # 2 つのコース
 
-- **EC / マップ** スターターの `ec` か `map` を選び、TODO と同じ手順でエージェントを組み込む。データと prompt を自分の題材に変える。完成例は `ec-coffee` / `map-coffee`
+- **サンプルアプリを使う** スターターの `ec` か `map` を選び、TODO と同じ手順でエージェントを組み込む。データと prompt を自分の題材に変える。`ec-coffee` / `map-coffee` を参考として、データを置き換えたり、プロンプトを変えたり、ツールを追加したりする。
 - **上級: 自分のアプリ** 既存のアプリに Subako Agent を組み込む。流れは同じ。API キー → publish → SDK → `useSessionId` → `useTool` → チャット
 
 ---
@@ -413,13 +424,16 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 # 提出
 
-18:00 までに、代表者が Google フォームから提出します。
+18:15 までに、代表者が Google フォームから提出します。
 
-- チーム名・メンバー・作品名
-- 誰の何を助けるか（100 字程度）
-- 60 秒以内のデモ動画 1 本。画面録画のままで OK
-- 工夫した点（200 字程度）
-- TODO: 提出フォームの URL / QR コードを記載
+- フォームに提出する内容
+    - チーム名・メンバー・作品名
+    - 誰の何を助けるか（100 字程度）
+    - 60 秒以内のデモ動画 1 本。画面録画のままで OK
+    - 工夫した点・困った点（200 字程度）
+- 作品は後ほど全体で共有します
+- https://forms.gle/cEZMCG81VA7DpU2p8
+    - ![w:140](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fforms.gle%2FcEZMCG81VA7DpU2p8)
 
 ---
 
@@ -429,8 +443,8 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 # 賞
 
-審査は、利用者への価値・動く体験・工夫を見ます。副賞は Subako の有償クレジットです（TODO: 金額を記載）。
+審査は、利用者への価値・動く体験・工夫を見ます。副賞は Subako の有償クレジットです。
 
-- **最優秀賞** 価値・体験・工夫の総合
-- **ベストエクスペリエンス賞** いちばん気持ちよく動いた作品
-- **ベストアイデア賞** 題材の選び方と工夫が光る作品
+- **最優秀賞(30,000 SC)** 価値・体験・工夫の総合
+- **ベストエクスペリエンス賞(10,000 SC)** いちばん気持ちよく動いた作品
+- **ベストアイデア賞(10,000 SC)** 題材の選び方と工夫が光る作品

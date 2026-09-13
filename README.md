@@ -45,6 +45,7 @@ paginate: true
 | `statement` | 64px の大見出し一枚 |
 | `cards` | `ul` を paper のカードに。**列数は枚数から自動**（2〜4 はそのまま、5 で一段小さく、6 で 3 列 2 段） |
 | `cards-2` … `cards-5` | 列数を明示したいとき |
+| `team` | 顔写真つきの人物グリッド。4 列で折り返す |
 | `code-text` | コード左・箇条書き右の 2 段組 |
 | `media` | 枠付きの画像一枚 |
 | `figure` | 図版一枚。`![h:400](...)` で高さを決めると、縦横比のまま中央に載る |
@@ -68,6 +69,25 @@ paginate: true
 ```
 
 全レイアウトの見本は `sample.md`。`npm run sample` で PDF になる。
+
+`team` は 1 行が 1 人。画像・`**英語名**`・素の日本語名・`*役割*` の順に書くと、
+それぞれがブロックになって写真の下に積まれる。役割が決まっていない人は `*...*` を省く。
+
+```markdown
+<!-- _class: team -->
+
+# 運営メンバー
+
+本日の運営は 8 名です。
+
+- ![](assets/members/kento-sato.png) **Kento Sato** 佐藤 拳斗 *Founder / CEO*
+- ![](assets/members/kosei-matsuyama.png) **Kosei Matsuyama**
+```
+
+顔写真は `assets/members/<kebab-case の名前>.png` に 512×512 で置いてある。差し替えは
+**同じファイル名で上書きするだけ**で、`deck.md` も CSS も触らなくていい。正方形でさえあれば
+CSS 側で丸く切り抜く。未定の人はイニシャルのプレースホルダーが入っている。
+
 
 ## 図をつくるとき
 

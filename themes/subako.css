@@ -548,6 +548,65 @@ section.cards-5 ul { grid-template-columns: repeat(5, 1fr); }
 section:is(.cards-5, .cards) ul:has(> li:nth-child(5)):not(:has(> li:nth-child(6))) > li { font-size: 14.5px; padding: 18px; }
 section:is(.cards-5, .cards) ul:has(> li:nth-child(5)):not(:has(> li:nth-child(6))) > li > strong:first-child { font-size: 16.5px; }
 
+/* ---- team: 顔写真 + 名前のグリッド ----------------------------------- */
+/* li ひとつが 1 人。`![](...) **英語名** 日本語名 *役割*` の順に書くと、
+ * 画像・strong・素のテキスト・em がそれぞれブロックになって縦に積まれる。
+ * 役割が決まっていない人は `*...*` を省けばその行だけ消える。 */
+
+section.team ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 24px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-content: start;
+  justify-items: center;
+}
+section.team h1 + p + ul { margin-top: 28px; }
+section.team ul > li {
+  display: block;
+  margin: 0;
+  max-width: 240px;
+  text-align: center;
+  font-size: 13.5px;      /* 日本語名 */
+  line-height: 1.5;
+  color: var(--muted);
+}
+section.team ul > li img {
+  display: block;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--sunken);
+}
+section.team ul > li strong {   /* 英語名 */
+  display: block;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--strong);
+}
+section.team ul > li em {       /* 役割 */
+  display: block;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+section:is(.dark, .section).team ul > li { color: var(--d-card-text); }
+section:is(.dark, .section).team ul > li strong { color: var(--d-head); }
+section:is(.dark, .section).team ul > li em { color: var(--d-chrome); }
+section:is(.dark, .section).team ul > li img {
+  border-color: var(--d-card-line);
+  background: var(--d-card);
+}
+
 /* ---- code-text: コード左・ポイント右 --------------------------------- */
 
 section.code-text {
