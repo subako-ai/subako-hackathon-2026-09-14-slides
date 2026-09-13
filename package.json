@@ -1,0 +1,13 @@
+{
+  "name": "subako-hackathon-slides",
+  "private": true,
+  "scripts": {
+    "dev": "marp --theme-set themes/ -s .",
+    "pdf": "marp --theme-set themes/ --allow-local-files --pdf deck.md",
+    "html": "marp --theme-set themes/ --allow-local-files deck.md",
+    "sample": "marp --theme-set themes/ --allow-local-files --pdf sample.md"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.1.2"
+  }
+}

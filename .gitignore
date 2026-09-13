@@ -1,0 +1,6 @@
+node_modules/
+
+# 書き出したもの（必要なら都度生成する）
+*.pdf
+*.html
+*.pptx

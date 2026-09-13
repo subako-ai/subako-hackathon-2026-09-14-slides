@@ -1,0 +1,4 @@
+{
+  "markdown.marp.themes": ["./themes/subako.css"],
+  "markdown.marp.enableHtml": true
+}

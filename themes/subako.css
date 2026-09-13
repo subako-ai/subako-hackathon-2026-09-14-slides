@@ -1,0 +1,585 @@
+/* @theme subako */
+
+/*
+ * Subako.AI — Marp theme
+ *
+ * Kikuvi-Inc/subako-pitch の ref/Subako-Assets/Subako_DesignSystem/ を移植したもの。
+ * カラートークン・級数・余白は Subako-Pitch.html（1280x720）に準拠し、
+ * 文字サイズだけ投影用に一段上げてある（keynote/README.md の Pitch スケール相当）。
+ *
+ * 用途: ハッカソン運営など、素早く作る社内スライド。
+ *       投資家向けなど作り込むデッキは keynote/Subako-Pitch.key を使う。
+ *
+ * 使い方は sample.md を参照。
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Inter:wght@400;500&display=swap');
+
+:root {
+  /* ---- カラートークン（Subako-DesignSystem.html と同一） ---- */
+  --paper: #FFFFF6;        /* カード・パネル */
+  --canvas: #EEEEE3;       /* ページ地 */
+  --sunken: #E1E1D8;       /* 沈んだ面 */
+  --action: #BFC7C4;
+  --line-soft: #CDCDCB;    /* 装飾的な罫 */
+  --line: #B2B6B5;         /* 構造的な罫 */
+  --line-strong: #818987;  /* UI境界・鳥/巣箱 */
+  --muted: #606B69;        /* 補助テキスト */
+  --display: #586461;      /* 23px以上の文字・ロゴ */
+  --body: #41504D;         /* 本文 */
+  --strong: #2A3835;       /* 小さい文字の最濃 */
+  --ink: #16221F;          /* ダーク面の地 */
+  --danger: #B9433B;       /* エラー・破壊的操作のみ */
+  --success: #307948;      /* 成功のみ */
+
+  /* ---- ダーク面（Subako-Pitch.html の .dark 相当） ---- */
+  --d-head: #E8ECEA;
+  --d-lead: #A8B1AF;
+  --d-body: #C9D0CE;
+  --d-eyebrow: #8F9997;
+  --d-chrome: #7F8987;
+  --d-card: #1F2B28;
+  --d-card-line: #35423F;
+  --d-card-text: #B9C2BF;
+  --d-code: #0F1815;
+
+  /* ---- 書体 ----
+   * 見出しは Playfair を先に置く。Playfair はラテンのみなので
+   * 日本語は自動でヒラギノ明朝に落ちる（Keynote 版のように手で切り替える必要がない）。 */
+  --serif: "Playfair Display", "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --sans: "Inter", -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- 左下の著作権表記。デッキ側で上書きできる ---- */
+  --copy: "© Kikuvi Inc.";
+
+  /* ---- 紙のグレイン ---- */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .022 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* ---- ブランドエレメント ----
+   * subako-pitch/ref/Subako-Assets/Subako_DesignSystem/assets/ の SVG を
+   * 色を焼き込んで data URI 化したもの（currentColor は background-image では効かないため）。
+   *   --i-hex       elements/hex-outline.svg  -> #FFFFF6 (paper)
+   *   --i-hex-dark  elements/hex-outline.svg  -> #22302C
+   *   --i-bird      elements/bird-1.svg       -> #818987 (line-strong)
+   *   --i-logo      logo/Subako_Vertical_Gray.svg  （#586461 のまま）
+   *   --i-logo-dark logo/Subako_Vertical_White.svg -> #FFFFF6
+   * ファイル参照にしないのは、PDF 書き出しに --allow-local-files が要るようになるため。 */
+  --i-hex: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 512 512'%3E %3Cpath fill='%23FFFFF6' d='M398.5,154l-125.5-72.4c-10.5-6.1-23.6-6.1-34.1,0l-125.5,72.4c-10.5,6.1-17.1,17.4-17.1,29.6v144.9c0,12.2,6.5,23.5,17.1,29.6l125.5,72.5c5.3,3,11.2,4.6,17.1,4.6s11.8-1.5,17.1-4.6l125.5-72.5c10.5-6.1,17.1-17.4,17.1-29.6v-144.9c0-12.2-6.5-23.5-17.1-29.6h0ZM404.6,328.5c0,8.2-4.4,15.9-11.6,20l-125.5,72.4c-7.1,4.1-16,4.1-23.1,0l-125.5-72.5c-7.1-4.1-11.6-11.8-11.6-20v-144.9c0-8.2,4.4-15.9,11.6-20l125.5-72.4c7.1-4.1,16-4.1,23.1,0l125.5,72.4c7.1,4.1,11.6,11.8,11.6,20v144.9Z'/%3E %3Cpath fill='%23FFFFF6' d='M352,186.4l-83.7-48.3c-7.6-4.4-17-4.4-24.6,0l-83.7,48.3c-7.6,4.4-12.3,12.5-12.3,21.3v96.6c0,8.8,4.7,16.9,12.3,21.3l83.7,48.3c3.8,2.2,8.1,3.3,12.3,3.3s8.5-1.1,12.3-3.3l83.7-48.3c7.6-4.4,12.3-12.5,12.3-21.3v-96.6c0-8.8-4.7-16.9-12.3-21.3h0ZM301.9,341.8l-39.1,22.6h0c-4.2,2.4-9.4,2.4-13.6,0l-39.1-22.6-11-6.4-33.6-19.4c-4.2-2.4-6.8-6.9-6.8-11.8v-96.6c0-4.8,2.6-9.4,6.8-11.8l83.7-48.3c4.2-2.4,9.4-2.4,13.6,0l83.7,48.3c4.2,2.4,6.8,6.9,6.8,11.8v96.6h0c0,4.9-2.6,9.4-6.8,11.8l-33.6,19.4-11,6.4Z'/%3E %3C/svg%3E");
+  --i-hex-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 0 512 512'%3E %3Cpath fill='%2322302C' d='M398.5,154l-125.5-72.4c-10.5-6.1-23.6-6.1-34.1,0l-125.5,72.4c-10.5,6.1-17.1,17.4-17.1,29.6v144.9c0,12.2,6.5,23.5,17.1,29.6l125.5,72.5c5.3,3,11.2,4.6,17.1,4.6s11.8-1.5,17.1-4.6l125.5-72.5c10.5-6.1,17.1-17.4,17.1-29.6v-144.9c0-12.2-6.5-23.5-17.1-29.6h0ZM404.6,328.5c0,8.2-4.4,15.9-11.6,20l-125.5,72.4c-7.1,4.1-16,4.1-23.1,0l-125.5-72.5c-7.1-4.1-11.6-11.8-11.6-20v-144.9c0-8.2,4.4-15.9,11.6-20l125.5-72.4c7.1-4.1,16-4.1,23.1,0l125.5,72.4c7.1,4.1,11.6,11.8,11.6,20v144.9Z'/%3E %3Cpath fill='%2322302C' d='M352,186.4l-83.7-48.3c-7.6-4.4-17-4.4-24.6,0l-83.7,48.3c-7.6,4.4-12.3,12.5-12.3,21.3v96.6c0,8.8,4.7,16.9,12.3,21.3l83.7,48.3c3.8,2.2,8.1,3.3,12.3,3.3s8.5-1.1,12.3-3.3l83.7-48.3c7.6-4.4,12.3-12.5,12.3-21.3v-96.6c0-8.8-4.7-16.9-12.3-21.3h0ZM301.9,341.8l-39.1,22.6h0c-4.2,2.4-9.4,2.4-13.6,0l-39.1-22.6-11-6.4-33.6-19.4c-4.2-2.4-6.8-6.9-6.8-11.8v-96.6c0-4.8,2.6-9.4,6.8-11.8l83.7-48.3c4.2-2.4,9.4-2.4,13.6,0l83.7,48.3c4.2,2.4,6.8,6.9,6.8,11.8v96.6h0c0,4.9-2.6,9.4-6.8,11.8l-33.6,19.4-11,6.4Z'/%3E %3C/svg%3E");
+  --i-bird: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath fill='%23818987' d='M345.2,302.34c-18.8,27.47-49.94,39.39-82.38,43.52-15.61,1.99-30.54,3.76-45.96,7.09-20.36,4.4-38.89,11.36-57.77,20.09l-39.91,21.11-5.65-.48c-1.43-.12-3.33-4.25-2.24-5.44l11.06-12.12c36.36-37.79,71.69-75.73,105.81-115.65,11.85-13.86,22.55-27.24,33.34-41.73,13.65-18.34,21.96-38.56,25.77-61.12,1.74-10.32,5.19-20.08,12.2-27.83,12.77-14.1,33.82-15.6,49.48-4.91,4.29,2.93,8.18,4.8,13.47,5.44,10.95,1.33,21.46,3.08,32.03,5.81,3.04.79,5.55,2.37,6.58,6.14l-36.63,6.47c-10.13,1.79-16.46,10.01-16.83,20.24-.77,21.12,9.78,42.69,12.67,67.46,2.72,23.33-1.79,46.56-15.04,65.92Z'/%3E %3C/svg%3E");
+  --i-logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='89.1 126.6 333.7 254.5'%3E %3Cdefs%3E %3Cstyle%3E .cls-1 %7B fill: %23586461; %7D %3C/style%3E %3C/defs%3E %3Cg%3E %3Cpath class='cls-1' d='M130.81,338.04l-18.26-12.06c-16.19-10.57-9.19-26.07,3.22-26.07,18.72,0,24.46,14.35,26.07,22.97h1.84v-19.29s-9.76-5.4-27.91-5.4c-17.11,0-22.74,8.84-22.74,8.84-9.19,12.98-.92,24,12.75,32.73l18.37,11.71c13.67,9.88,10.68,27.91-4.25,27.91-19.98,0-25.84-16.65-27.68-27.1h-1.72v22.05s8.96,6.78,29.4,6.78c18.14,0,23.31-9.42,23.31-9.42,7.35-11.02,2.87-23.54-12.4-33.65Z'/%3E %3Cpath class='cls-1' d='M241.12,325.99c-5.74,0-13.78,2.87-17.46,9.42v-40.54l-17.92,3.67v1.72c4.71,1.26,5.86,2.99,5.86,6.89v68.63c-1.21.26-4.47.92-6.71.85-4.82-.57-5.86-1.15-5.86-6.66v-43.98l-17.57,2.18v1.61c5.74.57,5.4,1.72,5.4,8.73v27.45c-2.18,4.71-6.55,8.15-10.91,8.15-6.66,0-10.79-3.22-10.79-10.79v-37.32l-18.49,2.18v1.61c6.66.69,6.43,1.49,6.43,8.61v25.26c0,14.01,6.77,17.46,15.39,17.46,7.46,0,15.96-5.74,18.38-12.06v9.99s0,2.41,2.99,1.95l15.04-2.64c1.87-.33,5.19-.99,6.71-1.3v2.45c0,1.84,6.09-.8,9.76-4.25,3.79,3.67,9.65,5.86,16.42,5.86,15.73,0,27.56-8.96,27.56-26.99,0-17-10.11-28.14-24.23-28.14ZM237.57,379.39c-7.12,0-13.9-5.17-13.9-18.37v-15.96c0-8.5,4.59-14.81,12.63-14.81,9.76,0,14.81,6.89,14.81,25.15s-5.51,24-13.55,24Z'/%3E %3Cpath class='cls-1' d='M365.8,373.19l-18.49-24c16.88-19.52,26.07-20.33,29.74-20.44v-1.72h-26.87v1.72c15.16-.34-1.61,15.96-1.61,15.96l-10.79,11.37,7.58,10.45c8.15,11.25,9.53,13.55,17.46,13.55h13.21v-1.72c-2.3-.11-6.66-.46-10.22-5.17Z'/%3E %3Cpath class='cls-1' d='M335.03,367.79v-72.92l-17.91,3.67v1.72c4.71,1.26,5.74,2.99,5.74,7.01v60.52c0,5.86-.23,9.3-4.59,10.56-4.79.89-9.37-3.33-9.37-11.14v-18.26c0-13.55-3.68-22.97-17.46-22.97-2.53-.23-7.23.23-10.91,2.3-6.32,3.33-7.92,6.55-8.96,8.38-1.03,1.84-.8,4.25.46,6.2,1.95,2.76,5.51,3.33,8.27,1.49,2.64-1.95,3.33-5.63,1.38-8.38-1.03-1.26-2.3-1.95-3.9-2.18-.69-.11-.12-2.3,3.9-4.25,8.61-4.25,14.81,2.07,14.81,14.01v6.89c-19.87,5.05-29.51,6.89-29.51,18.83,0,8.61,7.58,11.83,13.21,11.83,8.04,0,14.81-4.25,16.42-9.53.69,7.01,6.43,8.5,10.57,8.5h32.57v-1.72c-4.14-1.03-4.71-4.25-4.71-10.56ZM296.49,368.48c-1.03,2.76-3.79,6.55-8.73,6.55-5.74,0-8.27-4.25-8.27-8.27,0-6.43,4.82-11.71,17-14.47v16.19Z'/%3E %3Cpath class='cls-1' d='M395.86,325.99c-17.46,0-26.87,12.4-26.87,27.56s9.42,27.56,26.87,27.56,26.99-12.52,26.99-27.56-9.42-27.56-26.99-27.56ZM395.86,379.39c-8.5,0-12.52-5.05-12.52-25.84s4.02-25.84,12.52-25.84,12.52,5.05,12.52,25.84-3.9,25.84-12.52,25.84Z'/%3E %3C/g%3E %3Cg%3E %3Cpath class='cls-1' d='M316.62,159.45l-53.62-30.96c-4.31-2.49-9.68-2.49-13.99,0l-53.62,30.96c-4.31,2.49-7,7.13-7,12.12v61.92c0,4.98,2.68,9.62,7,12.12l53.62,30.96c2.16,1.25,4.58,1.87,7,1.87s4.84-.62,7-1.87l53.62-30.96c4.31-2.49,7-7.13,7-12.12v-61.92c0-4.98-2.68-9.62-7-12.12ZM320.11,233.49c0,3.74-2.01,7.22-5.25,9.08l-53.62,30.96c-3.23,1.87-7.26,1.87-10.49,0l-53.62-30.96c-3.24-1.87-5.25-5.35-5.25-9.08v-61.92c0-3.74,2.01-7.22,5.25-9.08l53.62-30.96c1.62-.93,3.43-1.4,5.25-1.4s3.63.47,5.25,1.4l53.62,30.96c3.24,1.87,5.25,5.35,5.25,9.08v61.92Z'/%3E %3Cpath class='cls-1' d='M296.71,173.3l-35.75-20.64c-3.06-1.77-6.85-1.77-9.91,0l-35.75,20.64c-3.06,1.76-4.96,5.05-4.96,8.58v41.29c0,3.53,1.9,6.82,4.96,8.58l35.75,20.64c1.53.88,3.24,1.32,4.96,1.32s3.43-.44,4.96-1.32l35.75-20.64c3.06-1.77,4.96-5.05,4.96-8.58v-41.29c0-3.53-1.9-6.82-4.96-8.58ZM259.21,249.37c-1.98,1.14-4.43,1.14-6.41,0l-17.08-9.86h.07v-48.9l17.95-10.36c1.4-.81,3.14-.81,4.54,0l17.95,10.36v48.9h.07l-17.08,9.86ZM298.17,223.17c0,2.28-1.23,4.41-3.21,5.55l-15.25,8.8v-44.9l6.09,3.52,1.75-3.03-27.54-15.9c-2.48-1.43-5.56-1.43-8.04,0l-27.54,15.9,1.75,3.03,6.09-3.52v44.9l-15.24-8.8c-1.98-1.14-3.21-3.27-3.21-5.55v-41.29c0-2.28,1.23-4.41,3.21-5.55l35.75-20.64c1.98-1.14,4.43-1.14,6.41,0l35.75,20.64c1.98,1.14,3.21,3.27,3.21,5.55v41.29Z'/%3E %3Ccircle class='cls-1' cx='256' cy='202.53' r='5.76'/%3E %3C/g%3E %3C/svg%3E");
+  --i-logo-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='89.1 126.6 333.7 254.5'%3E %3Cdefs%3E %3Cstyle%3E .cls-1 %7B fill:%23FFFFF6; %7D %3C/style%3E %3C/defs%3E %3Cg%3E %3Cpath class='cls-1' d='M130.81,338.04l-18.26-12.06c-16.19-10.57-9.19-26.07,3.22-26.07,18.72,0,24.46,14.35,26.07,22.97h1.84v-19.29s-9.76-5.4-27.91-5.4c-17.11,0-22.74,8.84-22.74,8.84-9.19,12.98-.92,24,12.75,32.73l18.37,11.71c13.67,9.88,10.68,27.91-4.25,27.91-19.98,0-25.84-16.65-27.68-27.1h-1.72v22.05s8.96,6.78,29.4,6.78c18.14,0,23.31-9.42,23.31-9.42,7.35-11.02,2.87-23.54-12.4-33.65Z'/%3E %3Cpath class='cls-1' d='M241.12,325.99c-5.74,0-13.78,2.87-17.46,9.42v-40.54l-17.92,3.67v1.72c4.71,1.26,5.86,2.99,5.86,6.89v68.63c-1.21.26-4.47.92-6.71.85-4.82-.57-5.86-1.15-5.86-6.66v-43.98l-17.57,2.18v1.61c5.74.57,5.4,1.72,5.4,8.73v27.45c-2.18,4.71-6.55,8.15-10.91,8.15-6.66,0-10.79-3.22-10.79-10.79v-37.32l-18.49,2.18v1.61c6.66.69,6.43,1.49,6.43,8.61v25.26c0,14.01,6.77,17.46,15.39,17.46,7.46,0,15.96-5.74,18.38-12.06v9.99s0,2.41,2.99,1.95l15.04-2.64c1.87-.33,5.19-.99,6.71-1.3v2.45c0,1.84,6.09-.8,9.76-4.25,3.79,3.67,9.65,5.86,16.42,5.86,15.73,0,27.56-8.96,27.56-26.99,0-17-10.11-28.14-24.23-28.14ZM237.57,379.39c-7.12,0-13.9-5.17-13.9-18.37v-15.96c0-8.5,4.59-14.81,12.63-14.81,9.76,0,14.81,6.89,14.81,25.15s-5.51,24-13.55,24Z'/%3E %3Cpath class='cls-1' d='M335.03,367.79v-72.92l-17.91,3.67v1.72c4.71,1.26,5.74,2.99,5.74,7.01v60.52c0,5.86-.23,9.3-4.59,10.56-4.79.89-9.37-3.33-9.37-11.14v-18.26c0-13.55-3.68-22.97-17.46-22.97-2.53-.23-7.23.23-10.91,2.3-6.32,3.33-7.92,6.55-8.96,8.38-1.03,1.84-.8,4.25.46,6.2,1.95,2.76,5.51,3.33,8.27,1.49,2.64-1.95,3.33-5.63,1.38-8.38-1.03-1.26-2.3-1.95-3.9-2.18-.69-.11-.12-2.3,3.9-4.25,8.61-4.25,14.81,2.07,14.81,14.01v6.89c-19.87,5.05-29.51,6.89-29.51,18.83,0,8.61,7.58,11.83,13.21,11.83,8.04,0,14.81-4.25,16.42-9.53.69,7.01,6.43,8.5,10.57,8.5h32.57v-1.72c-4.14-1.03-4.71-4.25-4.71-10.56ZM296.49,368.48c-1.03,2.76-3.79,6.55-8.73,6.55-5.74,0-8.27-4.25-8.27-8.27,0-6.43,4.82-11.71,17-14.47v16.19Z'/%3E %3Cpath class='cls-1' d='M365.8,373.19l-18.49-24c16.88-19.52,26.07-20.33,29.74-20.44v-1.72h-26.87v1.72c15.16-.34-1.61,15.96-1.61,15.96l-10.79,11.37,7.58,10.45c8.15,11.25,9.53,13.55,17.46,13.55h13.21v-1.72c-2.3-.11-6.66-.46-10.22-5.17Z'/%3E %3Cpath class='cls-1' d='M395.86,325.99c-17.46,0-26.87,12.4-26.87,27.56s9.42,27.56,26.87,27.56,26.99-12.52,26.99-27.56-9.42-27.56-26.99-27.56ZM395.86,379.39c-8.5,0-12.52-5.05-12.52-25.84s4.02-25.84,12.52-25.84,12.52,5.05,12.52,25.84-3.9,25.84-12.52,25.84Z'/%3E %3C/g%3E %3Cg%3E %3Cpath class='cls-1' d='M316.62,159.45l-53.62-30.96c-4.31-2.49-9.68-2.49-13.99,0l-53.62,30.96c-4.31,2.49-7,7.13-7,12.12v61.92c0,4.98,2.68,9.62,7,12.12l53.62,30.96c2.16,1.25,4.58,1.87,7,1.87s4.84-.62,7-1.87l53.62-30.96c4.31-2.49,7-7.13,7-12.12v-61.92c0-4.98-2.68-9.62-7-12.12ZM320.11,233.49c0,3.74-2.01,7.22-5.25,9.08l-53.62,30.96c-3.23,1.87-7.26,1.87-10.49,0l-53.62-30.96c-3.24-1.87-5.25-5.35-5.25-9.08v-61.92c0-3.74,2.01-7.22,5.25-9.08l53.62-30.96c1.62-.93,3.43-1.4,5.25-1.4s3.63.47,5.25,1.4l53.62,30.96c3.24,1.87,5.25,5.35,5.25,9.08v61.92Z'/%3E %3Cpath class='cls-1' d='M296.71,173.3l-35.75-20.64c-3.06-1.77-6.85-1.77-9.91,0l-35.75,20.64c-3.06,1.76-4.96,5.05-4.96,8.58v41.29c0,3.53,1.9,6.82,4.96,8.58l35.75,20.64c1.53.88,3.24,1.32,4.96,1.32s3.43-.44,4.96-1.32l35.75-20.64c3.06-1.77,4.96-5.05,4.96-8.58v-41.29c0-3.53-1.9-6.82-4.96-8.58ZM259.21,249.37c-1.98,1.14-4.43,1.14-6.41,0l-17.08-9.86h.07v-48.9l17.95-10.36c1.4-.81,3.14-.81,4.54,0l17.95,10.36v48.9h.07l-17.08,9.86ZM298.17,223.17c0,2.28-1.23,4.41-3.21,5.55l-15.25,8.8v-44.9l6.09,3.52,1.75-3.03-27.54-15.9c-2.48-1.43-5.56-1.43-8.04,0l-27.54,15.9,1.75,3.03,6.09-3.52v44.9l-15.24-8.8c-1.98-1.14-3.21-3.27-3.21-5.55v-41.29c0-2.28,1.23-4.41,3.21-5.55l35.75-20.64c1.98-1.14,4.43-1.14,6.41,0l35.75,20.64c1.98,1.14,3.21,3.27,3.21,5.55v41.29Z'/%3E %3Ccircle class='cls-1' cx='256' cy='202.53' r='5.76'/%3E %3C/g%3E %3C/svg%3E");
+}
+
+/* ============================================================ スライド地 == */
+
+section {
+  width: 1280px;
+  height: 720px;
+  padding: 64px 72px 56px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background-color: var(--canvas);
+  background-image: var(--grain);
+  background-repeat: repeat;
+  background-size: 160px 160px;
+  background-blend-mode: multiply;
+
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--body);
+  font-feature-settings: "palt" 1;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0;
+}
+
+/* 日本語は語単位で折り返す（未対応ブラウザは従来挙動にフォールバック） */
+section { word-break: auto-phrase; }
+
+/* 明るい地の変種 */
+section.paper { background-color: var(--paper); }
+
+/* ---- chrome: 著作権表記（左下）とページ番号（右下） ----
+ * Marp の section には ::before / ::after しか無いので、
+ * グレインは background-image に逃がして疑似要素を 2 つとも chrome に使う。 */
+section::before {
+  content: var(--copy);
+  position: absolute;
+  left: 28px;
+  bottom: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+section::after {
+  /* Marp の paginate: true が入れる値。無効なら空文字になる */
+  content: attr(data-marpit-pagination);
+  position: absolute;
+  right: 28px;
+  bottom: 20px;
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* Marp の footer: ディレクティブ。中央下の一文として使う */
+footer {
+  position: absolute;
+  left: 72px;
+  right: 72px;
+  bottom: 52px;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--strong);
+  text-align: center;
+}
+
+/* Marp の header: ディレクティブ。右上の mono ラベル */
+header {
+  position: absolute;
+  right: 72px;
+  top: 30px;
+  left: auto;
+  margin: 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ============================================================== 文字組み == */
+
+section > *:first-child { margin-top: 0; }
+section > *:last-child { margin-bottom: 0; }
+
+/* h6 = アイブロウ。六角形のマーカーが付く mono の小見出し */
+h6 {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: .2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h6::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--line-strong);
+  clip-path: polygon(0 0, 60% 0, 100% 50%, 60% 100%, 0 100%);
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-weight: 500;
+  text-wrap: balance;
+  color: var(--display);
+}
+
+/* h1 = スライドの見出し */
+h1 {
+  font-family: var(--serif);
+  font-size: 40px;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  margin-bottom: 4px;
+}
+
+/* h2 = 本文中の小見出し */
+h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.35;
+  margin: 28px 0 8px;
+}
+
+/* h3 = カード見出し・段落の見出し。ここから下はサンセリフ */
+h3 {
+  font-family: var(--sans);
+  font-size: 19px;
+  color: var(--strong);
+  margin: 22px 0 6px;
+}
+h4, h5 {
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--strong);
+  margin: 18px 0 4px;
+}
+
+p { margin: 0 0 12px; }
+
+/* 見出し直下の段落 = リード文。画像だけの段落は対象外（max-width で画像が縮むため） */
+h1 + p:not(:has(img)) {
+  font-size: 20px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 84ch;
+  margin: 10px 0 0;
+}
+
+/* ヘッダー（アイブロウ + 見出し + リード）と本文の間 */
+h1 + p + *,
+h1 + *:not(p) { margin-top: 28px; }
+
+strong { font-weight: 500; color: var(--strong); }
+em { font-style: normal; color: var(--strong); }
+
+a { color: var(--strong); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line); }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+  margin: 24px 0;
+  width: 100%;
+}
+
+/* ------------------------------------------------------------ リスト ---- */
+
+ul, ol { margin: 0 0 12px; padding-left: 1.25em; }
+li { margin: 0 0 10px; font-size: 22px; line-height: 1.7; }
+li::marker { color: var(--line-strong); }
+li > ul, li > ol { margin: 8px 0 0; }
+li li { font-size: 18px; margin-bottom: 6px; }
+
+/* ------------------------------------------------------------- 表 ------ */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+th {
+  font-weight: 500;
+  text-align: left;
+  color: var(--strong);
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+  color: var(--body);
+}
+tr:last-child td { border-bottom: 0; }
+
+/* ------------------------------------------------------- 引用・コード -- */
+
+blockquote {
+  margin: 0 0 12px;
+  border-left: 2px solid var(--body);
+  border-radius: 0 8px 8px 0;
+  background: var(--paper);
+  padding: 12px 20px;
+  font-size: 17px;
+  color: var(--body);
+}
+blockquote > *:last-child { margin-bottom: 0; }
+
+code {
+  font-family: var(--mono);
+  font-size: .88em;
+  background: var(--sunken);
+  padding: .1em .4em;
+  border-radius: 4px;
+  color: var(--strong);
+}
+
+pre {
+  margin: 0 0 12px;
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  overflow: hidden;
+}
+pre code {
+  display: block;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #D7DDDB;
+  white-space: pre;
+}
+
+/* highlight.js のトークン色（Subako-Pitch.html の pre .c/.k/.s/.f に対応） */
+.hljs-comment, .hljs-quote { color: #7F8987; }
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-literal, .hljs-type { color: #BFC7C4; }
+.hljs-string, .hljs-regexp, .hljs-addition { color: #C8D8B8; }
+.hljs-title, .hljs-title.function_, .hljs-section, .hljs-name, .hljs-attr { color: #FFFFF6; }
+.hljs-number, .hljs-symbol { color: #C9D0CE; }
+.hljs-meta, .hljs-deletion { color: #A8B1AF; }
+
+/* --------------------------------------------------------- 画像・図 ---- */
+
+img { max-width: 100%; height: auto; border-radius: 12px; }
+p:has(> img:only-child) { margin: 0 0 12px; }
+
+/* ================================================================ ダーク == */
+/* `_class: dark` 単体でも、section/statement/thanks との併用でも効く */
+
+section:is(.dark, .section) {
+  background-color: var(--ink);
+  background-image: var(--grain-dark);
+  background-blend-mode: screen;
+  color: var(--d-body);
+}
+section:is(.dark, .section)::before,
+section:is(.dark, .section)::after { color: var(--d-chrome); }
+section:is(.dark, .section) h6 { color: var(--d-eyebrow); }
+section:is(.dark, .section) :is(h1, h2) { color: var(--d-head); }
+section:is(.dark, .section) :is(h3, h4, h5) { color: var(--d-head); }
+section:is(.dark, .section) h1 + p { color: var(--d-lead); }
+section:is(.dark, .section) :is(strong, em) { color: var(--paper); }
+section:is(.dark, .section) footer { color: var(--d-head); }
+section:is(.dark, .section) a { color: var(--d-head); text-decoration-color: var(--d-card-line); }
+section:is(.dark, .section) code { background: #263230; color: var(--d-head); }
+section:is(.dark, .section) pre { background: var(--d-code); border: 1px solid var(--strong); }
+section:is(.dark, .section) blockquote { background: var(--d-card); border-left-color: var(--d-card-line); color: var(--d-card-text); }
+section:is(.dark, .section) :is(th, td) { color: var(--d-body); border-bottom-color: var(--d-card-line); }
+section:is(.dark, .section) th { color: var(--d-head); }
+section:is(.dark, .section) li::marker { color: var(--d-chrome); }
+section:is(.dark, .section) hr { border-top-color: var(--d-card-line); }
+
+/* =============================================================== レイアウト */
+
+/* ---- cover: 縦組ロゴ + タイトル + メタ（h6） ------------------------- */
+
+section.cover {
+  /* 左半分はロゴ（背景画像）の場所。テキストは padding で右半分に寄せる */
+  padding: 0 88px 0 640px;
+  justify-content: center;
+  background-image: var(--i-logo), var(--grain);
+  background-position: left 128px center, 0 0;
+  background-size: 300px auto, 160px 160px;
+  background-repeat: no-repeat, repeat;
+  background-blend-mode: normal, multiply;
+}
+section.cover.dark {
+  background-image: var(--i-logo-dark), var(--grain-dark);
+  background-blend-mode: normal, screen;
+}
+section.cover h1 {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  color: var(--strong);
+  margin: 0;
+}
+section.cover.dark h1 { color: var(--d-head); }
+section.cover h1 + p {
+  font-size: 20px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+/* cover では h6 が下部のメタ情報（日付・会場）になる */
+section.cover h6 {
+  margin: 48px 0 0;
+  letter-spacing: .08em;
+  line-height: 2;
+  text-transform: none;
+  display: block;
+}
+section.cover h6::before { display: none; }
+section.cover::after { visibility: hidden; }
+
+/* ---- section: ダークの扉 -------------------------------------------- */
+
+section.section {
+  justify-content: center;
+  background-image: var(--i-hex-dark), var(--grain-dark);
+  background-position: right -90px bottom -120px, 0 0;
+  background-size: 440px 440px, 160px 160px;
+  background-repeat: no-repeat, repeat;
+  background-blend-mode: normal, screen;
+}
+section.section h1 { font-size: 52px; }
+section.section h1 + p { font-size: 19px; max-width: 62ch; margin-top: 16px; }
+
+/* ---- statement: 大見出し一枚 ---------------------------------------- */
+
+section.statement {
+  justify-content: center;
+  background-image: var(--i-bird), var(--grain);
+  background-position: right 120px top 150px, 0 0;
+  background-size: 84px 84px, 160px 160px;
+  background-repeat: no-repeat, repeat;
+  background-blend-mode: normal, multiply;
+}
+section.statement h1 { font-size: 64px; line-height: 1.2; }
+section.statement h1 + p {
+  font-size: 20px;
+  color: var(--body);
+  max-width: 46ch;
+  line-height: 1.85;
+  margin-top: 26px;
+}
+section.statement.dark {
+  background-image: var(--i-hex-dark), var(--grain-dark);
+  background-position: right -90px bottom -120px, 0 0;
+  background-size: 440px 440px, 160px 160px;
+  background-blend-mode: normal, screen;
+}
+section.statement.dark h1 + p { color: var(--d-body); }
+
+/* ---- thanks: 中央寄せ一枚 ------------------------------------------- */
+
+section.thanks {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-image: var(--i-hex), var(--grain);
+  background-position: right -90px bottom -120px, 0 0;
+  background-size: 440px 440px, 160px 160px;
+  background-repeat: no-repeat, repeat;
+  background-blend-mode: normal, multiply;
+}
+section.thanks.dark {
+  background-image: var(--i-hex-dark), var(--grain-dark);
+  background-blend-mode: normal, screen;
+}
+section.thanks h1 { font-size: 52px; }
+section.thanks h1 + p { margin-top: 18px; max-width: none; }
+section.thanks h6 { justify-content: center; }
+section.thanks::after { visibility: hidden; }
+
+/* ---- cards: ul を paper のカードに化けさせる -------------------------- */
+/* `_class: cards` は枚数から列数を自動で決める。明示したいときは cards-3 など */
+
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul {
+  display: grid;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-content: start;
+}
+/* リード文の直後に来るカードは、他の本文と同じだけ間を空ける */
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) h1 + p + ul { margin-top: 28px; }
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li {
+  display: block;
+  margin: 0;
+  min-height: 230px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--body);
+}
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li > strong:first-child {
+  display: block;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--strong);
+  margin-bottom: 8px;
+}
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li ul {
+  display: block;
+  margin-top: 8px;
+  padding-left: 1.1em;
+  list-style: disc;
+}
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li li {
+  display: list-item;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 0 6px;
+  font-size: 14.5px;
+}
+section:is(.dark, .section):is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li {
+  background: var(--d-card);
+  border-color: var(--d-card-line);
+  color: var(--d-card-text);
+}
+section:is(.dark, .section):is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li > strong:first-child {
+  color: var(--d-head);
+}
+
+/* 枚数で列を決める。後の規則ほど強いので最大枚数の指定が勝つ */
+section.cards ul { grid-template-columns: repeat(2, 1fr); }
+section.cards ul:has(> li:nth-child(3)) { grid-template-columns: repeat(3, 1fr); }
+section.cards ul:has(> li:nth-child(4)) { grid-template-columns: repeat(4, 1fr); }
+section.cards ul:has(> li:nth-child(5)) { grid-template-columns: repeat(5, 1fr); }
+section.cards ul:has(> li:nth-child(6)) { grid-template-columns: repeat(3, 1fr); }
+
+section.cards-2 ul { grid-template-columns: repeat(2, 1fr); }
+section.cards-3 ul { grid-template-columns: repeat(3, 1fr); }
+section.cards-4 ul { grid-template-columns: repeat(4, 1fr); }
+section.cards-5 ul { grid-template-columns: repeat(5, 1fr); }
+
+/* 5列は文字を一段落とさないと入らない */
+section:is(.cards-5, .cards) ul:has(> li:nth-child(5)):not(:has(> li:nth-child(6))) > li { font-size: 14.5px; padding: 18px; }
+section:is(.cards-5, .cards) ul:has(> li:nth-child(5)):not(:has(> li:nth-child(6))) > li > strong:first-child { font-size: 16.5px; }
+
+/* ---- code-text: コード左・ポイント右 --------------------------------- */
+
+section.code-text {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0 32px;
+  align-content: start;
+}
+section.code-text > :is(h6, h1, h1 + p) { grid-column: 1 / -1; }
+section.code-text > pre { margin: 28px 0 0; align-self: start; }
+section.code-text > :is(ul, ol) { margin: 28px 0 0; }
+section.code-text > ul > li { font-size: 18px; margin-bottom: 16px; line-height: 1.8; }
+
+/* ---- media: 枠付きの画像一枚 ---------------------------------------- */
+
+section.media {
+  justify-content: center;
+}
+section.media img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+}
+section.media p:has(> img) { margin: 28px 0 0; max-width: none; }
+
+/* ---- 補助クラス ------------------------------------------------------ */
+
+section.center { justify-content: center; }
+section.compact li { font-size: 18px; margin-bottom: 6px; }
+section.compact table { font-size: 14.5px; line-height: 1.5; }
+section.compact :is(th, td) { padding: 7px 14px; }
+section.compact h1 + p { font-size: 17px; }
+section.plain::before,
+section.plain::after { visibility: hidden; }
