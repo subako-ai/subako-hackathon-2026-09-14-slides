@@ -7,3 +7,6 @@ node_modules/
 
 # 図の描画ページはソースなので残す
 !tools/*.html
+
+# Pages のビルド出力
+site/
