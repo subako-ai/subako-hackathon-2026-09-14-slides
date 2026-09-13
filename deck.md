@@ -257,14 +257,10 @@ npm install --workspace @hackathon/todo \
 
 # agent の作成・publish・Origin 許可
 npm run agent:publish -- todo
-
-# 会話の出入り口とチャット用の CSS を完成例からコピー
-cp apps/todo-integrated/src/session.ts apps/todo/src/session.ts
-cp apps/todo-integrated/src/session.css apps/todo/src/session.css
 ```
 
 - 指示は `agents/todo/prompt.md`。publish が `.env.local` の `SUBAKO_AGENT_TODO` を更新する
-- **会話（session）はアプリが作ります。** `session.ts` がその出入り口
+- **会話（session）はアプリが作ります。** 出入り口の `src/session.ts` は配置済み
 - publish 後は `Ctrl+C` で止めて `npm run dev -- todo` を再起動
 
 ---
