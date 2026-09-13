@@ -287,7 +287,7 @@ npm run agent:publish -- todo
 
 # App.tsx の TODO を上から外す
 
-`apps/todo/src/App.tsx` に ①〜⑥ の TODO コメントを置いてあります。上から順に外していけば動きます。
+`apps/todo/src/App.tsx` に ①〜⑥ の TODO コメントを置いてあります。上から順に外していけば動きます。サイドバーの枠は最初からあります。
 
 | | 場所 | やること |
 |---|---|---|
@@ -296,9 +296,9 @@ npm run agent:publish -- todo
 | ③ | `App` の直前 | `TodoAssistant` と `list_todos` / `add_todo` |
 | ④ | ③ の中 | `set_todo_done` を自分で書く → STEP 9 |
 | ⑤ | `App` の中 | `useSessionId` で使う会話を用意する |
-| ⑥ | `return` の中 | `has-session` とサイドバーを足す |
+| ⑥ | サイドバーの中 | 置いてある `<p>` を会話に差し替える |
 
-- **④ 以外はコメントを外すだけ。** 雛形が入っています
+- **④ 以外はコメントを外すだけ。** 雛形が入っています。レイアウトは触りません
 - `useTool` が「AI に任せる操作」。`execute` は既存の `add(title)` を呼ぶだけ
 - `schema` の Zod が引数の形を AI に伝え、実行前に検証する
 - 会話は `useSessionId` が作り、ID を `localStorage` に覚える。API キーは持たない
@@ -391,6 +391,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 | 最初に画面を変えるツール | `show_items` | `show_candidates` |
 
 - SDK インストール → `npm run agent:publish -- ec` → `npm run dev -- ec`。TODO と同じ 3 コマンド
+- サイドバーの枠と `session.ts` はスターターにあります。`session-content` の中身を差し替えます
 - 16:30 までに「候補を表示して選ぶ」まで動かすのが目安
 
 ---
