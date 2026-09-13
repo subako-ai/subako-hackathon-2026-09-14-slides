@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8">
+<body style="margin:0;background:#FFFFF6">
+<div id="out"></div>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+mermaid.initialize({
+  startOnLoad: false, theme: "base", securityLevel: "loose",
+  // sequence図の字数は themeVariables ではなくここで決まります。
+  sequence: {
+    actorFontSize: 34, actorFontWeight: 600, messageFontSize: 30, noteFontSize: 28,
+    actorFontFamily: "system-ui, sans-serif", messageFontFamily: "system-ui, sans-serif",
+    noteFontFamily: "system-ui, sans-serif", width: 300, boxMargin: 14,
+  },
+  themeVariables: {
+    background: "#FFFFF6", primaryColor: "#FFFFF6", primaryTextColor: "#2A3835",
+    primaryBorderColor: "#818987", lineColor: "#606B69", secondaryColor: "#E1E1D8",
+    tertiaryColor: "#EEEEE3", fontFamily: "system-ui, sans-serif",
+    actorBkg: "#FFFFF6", actorBorder: "#818987", actorTextColor: "#2A3835",
+    actorLineColor: "#B2B6B5", signalColor: "#41504D", signalTextColor: "#41504D",
+    noteBkgColor: "#E1E1D8", noteTextColor: "#2A3835", noteBorderColor: "#B2B6B5",
+  },
+});
+const name = new URLSearchParams(location.search).get("f");
+const src = await (await fetch(name + ".mmd")).text();
+const { svg } = await mermaid.render("d", src);
+document.getElementById("out").innerHTML = svg;
+document.title = "rendered";
+</script>

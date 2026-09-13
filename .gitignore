@@ -4,3 +4,6 @@ node_modules/
 *.pdf
 *.html
 *.pptx
+
+# 図の描画ページはソースなので残す
+!tools/*.html

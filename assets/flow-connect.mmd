@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant A as TODOアプリ（ブラウザー）
+    participant V as Vite 開発サーバー
+    participant S as Subako
+
+    Note over V: APIキーを持つのはここだけ
+    A->>V: POST /__subako/session
+    V->>S: Agent に会話を作る
+    S-->>V: 会話ID
+    V-->>A: 会話ID（localStorage に覚える）
+    A->>V: POST /__subako/token
+    V->>S: session token を発行
+    S-->>V: token
+    V-->>A: token
+    A->>S: token で接続（APIキーは渡らない）

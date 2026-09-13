@@ -1,0 +1,15 @@
+sequenceDiagram
+    actor U as 利用者
+    participant A as TODOアプリ（ブラウザー）
+    participant S as Subako
+    participant M as LLM
+
+    A->>S: useTool でツールを登録<br/>list_todos / add_todo / set_todo_done
+    U->>A: 「リハーサルをする、を追加して」
+    A->>S: メッセージ
+    S->>M: Agent の指示 ＋ 使えるツール
+    M-->>S: add_todo(title: "リハーサルをする")
+    S-->>A: このツールを実行して
+    A->>A: 既存の add(title) を呼ぶ → 画面が変わる
+    A-->>S: 実行結果（JSON）
+    S-->>A: 「追加しました」

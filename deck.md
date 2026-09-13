@@ -245,6 +245,22 @@ npm run dev -- todo
 
 ---
 
+<!-- _class: cards -->
+
+###### CONCEPT
+
+# Agent と Session
+
+これから出てくる言葉は 3 つだけです。
+
+- **Agent** 何をする人か。モデル・指示（`prompt.md`）・MCP をまとめた設定。`agent:publish` するたびに version が増える
+- **Session** 1 つの会話。**作った時点の agent version に結び付きます。** 履歴は Subako 側に残る
+- **Client tool** その会話にブラウザーが登録する「アプリの操作」。`useTool` で登録するのがこれ
+
+だから `prompt.md` を直して publish したら、「新しいセッション」で会話を作り直します。押すまでは前の指示のまま続きます。
+
+---
+
 ###### STEP 7
 
 # SDK のインストールと publish
@@ -312,6 +328,30 @@ useTool(client, 'set_todo_done', {
 - 「サンプルを起動する、テーマを決める、発表を練習する、を追加して」で 3 件増える
 - 「サンプルを起動する、は完了した」で完了になる
 - 手で別の TODO を完了にしてから「残りを教えて」と聞くと、変更が反映されている
+
+---
+
+<!-- _class: figure -->
+
+###### HANDS-ON
+
+# ① つなぐまで
+
+APIキーはブラウザーへ渡しません。会話の作成と token の発行を開発サーバーに任せます。
+
+![h:415](assets/flow-connect.svg)
+
+---
+
+<!-- _class: figure -->
+
+###### HANDS-ON
+
+# ② 会話のたびに
+
+`useTool` で登録した既存の関数が、LLM から呼ばれて画面を変えます。
+
+![h:415](assets/flow-loop.svg)
 
 ---
 

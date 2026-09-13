@@ -47,6 +47,7 @@ paginate: true
 | `cards-2` … `cards-5` | 列数を明示したいとき |
 | `code-text` | コード左・箇条書き右の 2 段組 |
 | `media` | 枠付きの画像一枚 |
+| `figure` | 図版一枚。`![h:400](...)` で高さを決めると、縦横比のまま中央に載る |
 | `thanks` | 中央寄せの締め |
 | `dark` | 上記への修飾子。地が ink になる |
 | `center` | 内容を上下中央に寄せる |
@@ -67,6 +68,27 @@ paginate: true
 ```
 
 全レイアウトの見本は `sample.md`。`npm run sample` で PDF になる。
+
+## 図をつくるとき
+
+Marp は Mermaid を描画しない（`language-mermaid` のコードブロックのまま出る）ので、
+ソースを `assets/*.mmd` に置き、SVG に焼いてから `![h:415](assets/xxx.svg)` で貼る。
+高さを指定して縦横比のまま中央に置くため、スライドには `figure` クラスを使う。
+
+`.mmd` を直したら、この手順で焼き直す。色と級数は `tools/render-mermaid.html` が持っている。
+
+```bash
+cp assets/*.mmd tools/render-mermaid.html /tmp/
+(cd /tmp && python3 -m http.server 8899 --bind 127.0.0.1 &)
+
+agent-browser open "http://127.0.0.1:8899/render-mermaid.html?f=flow-loop"
+agent-browser wait 4000
+agent-browser eval "document.querySelector('#out svg').outerHTML" > /tmp/out.raw
+```
+
+`/tmp/out.raw` は JSON 文字列なので、`<svg` 以降を取り出し、`width="100%"` と
+`max-width` を外して `assets/<名前>.svg` に保存する。この2つを残すと、
+高さ指定が効かず図が歪む。
 
 ## テーマを直すとき
 

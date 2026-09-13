@@ -574,6 +574,11 @@ section.media img {
 }
 section.media p:has(> img) { margin: 28px 0 0; max-width: none; }
 
+/* 図版1枚。`![h:400](...)` で高さを決め、幅は縦横比のまま中央に置く。
+   media と違い width を上書きしないので、高さ指定しても歪まない。 */
+section.figure p:has(> img) { margin: 20px 0 0; max-width: none; text-align: center; }
+section.figure img { display: inline-block; }
+
 /* ---- 補助クラス ------------------------------------------------------ */
 
 section.center { justify-content: center; }
