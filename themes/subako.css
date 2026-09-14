@@ -607,6 +607,65 @@ section:is(.dark, .section).team ul > li img {
   background: var(--d-card);
 }
 
+/* ---- hex: subako.ai と同じ六角アイコンで構成要素を並べる ------------- */
+/* li ひとつが 1 要素。`![](assets/icons/harness.svg) **ハーネス** *harness* 説明`
+ * の順に書くと、アイコン・名前・mono のキー・説明が縦に積まれる（team と同じ組み方）。
+ * アイコンは subako.ai の .hxm（六角 + 24px のラインアイコン）を assets/icons/ に
+ * SVG として焼いたもの。色を焼き込んであるので明るい地のスライド専用。 */
+
+section.hex ul {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0 18px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-content: start;
+  justify-items: center;
+}
+/* 六角の行は見出しと締めの一文のあいだで上下に振り分ける */
+section.hex h1 + p + ul { margin-block: auto; }
+section.hex ul > li {
+  display: block;
+  margin: 0;
+  text-align: center;
+  font-size: 13.5px;      /* 説明 */
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;      /* 説明が 2 行になっても 1 文字だけ落とさない */
+}
+section.hex ul > li img {
+  display: block;
+  width: 118px;
+  height: 118px;
+  margin: 0 auto 18px;
+  /* .hxm と同じ落ち影。六角が紙から少し浮く */
+  filter: drop-shadow(0 8px 14px rgba(22, 34, 31, .14));
+}
+section.hex ul > li strong {  /* 要素名 */
+  display: block;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--strong);
+}
+section.hex ul > li em {      /* SDK 上の名前 */
+  display: block;
+  margin: 5px 0 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+/* 締めの一文は罫を挟んで行の下に置く */
+section.hex ul + p {
+  margin: 0;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-soft);
+  text-align: center;
+  color: var(--body);
+}
+
 /* ---- code-text: コード左・ポイント右 --------------------------------- */
 
 section.code-text {
@@ -637,6 +696,88 @@ section.media p:has(> img) { margin: 28px 0 0; max-width: none; }
    media と違い width を上書きしないので、高さ指定しても歪まない。 */
 section.figure p:has(> img) { margin: 20px 0 0; max-width: none; text-align: center; }
 section.figure img { display: inline-block; }
+
+/* ---- shot: スクリーンショット 1 枚を主役にする（紙芝居用） ------------
+ * `###### アイブロウ` → `# 見出し` → リード文 → 画像、の順に書く。
+ * 見出しを一段小さくして、余った高さをすべて画像に渡す。
+ * 画像は縦横比のまま、残りの領域に収まるいちばん大きい寸法になるので、
+ * 16:9 のスクリーンショットは `![](...)` と書くだけでよい。 */
+
+section.shot { padding: 44px 72px 52px; }
+section.shot h6 { margin-bottom: 10px; }
+section.shot h1 { font-size: 30px; }
+section.shot h1 + p:not(:has(img)) {
+  font-size: 16.5px;
+  line-height: 1.65;
+  margin-top: 6px;
+  max-width: none;
+}
+section.shot p:has(> img) {
+  flex: 1;
+  min-height: 0;          /* flex 子が中身の高さで押し広げないようにする */
+  margin: 18px 0 0;
+  max-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+section.shot img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  box-shadow: 0 14px 30px rgba(22, 34, 31, .10);
+}
+
+/* ---- shots: スクリーンショットを 2 枚並べて見比べる ------------------
+ * li ひとつが 1 枚。`![](...) **名前** `パス` 説明` の順に書く。 */
+
+section.shots ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 32px;
+  padding: 0;
+  margin: 20px 0 0;
+  list-style: none;
+  align-content: start;
+}
+/* 2 枚の行は見出しと下辺のあいだで上下に振り分ける */
+section.shots h1 + p + ul { margin-block: auto; }
+section.shots h1 { font-size: 34px; }
+section.shots h1 + p:not(:has(img)) { font-size: 17px; }
+section.shots ul > li {
+  display: block;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+section.shots ul > li img {
+  display: block;
+  width: 100%;
+  margin: 0 0 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(22, 34, 31, .09);
+}
+section.shots ul > li strong {  /* アプリ名 */
+  display: block;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--strong);
+}
+section.shots ul > li code {    /* ディレクトリ */
+  display: block;
+  margin: 2px 0 6px;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 12.5px;
+  letter-spacing: .04em;
+}
 
 /* ---- 補助クラス ------------------------------------------------------ */
 

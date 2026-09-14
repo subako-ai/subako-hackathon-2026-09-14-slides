@@ -4,27 +4,15 @@ theme: subako
 paginate: true
 ---
 
-# Subako Hackathon 9/14
-
-Kikuvi Inc.
-
----
-
-# ようこそ
-
----
-
 <!-- _class: cards -->
 
 # 開始までのお願い
 
 15:15 頃に開始します。それまでに 3 つお願いします。
 
-- **Wi-Fi** Plug and Play の Wi-Fi に接続（TODO: SSID とパスワード）
+- **Wi-Fi** Plug and Play の Wi-Fi に接続<br>SSID: `pnpj_guest_5G`<br>パスワード: `20200406`
 - **GitHub アカウント** Codespaces を使うと環境構築なしで始められます
-- **Discord** 質問・相談は Subako Discord Server で受け付けます。<br> ![w:200](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fdiscord.gg%2Fxxxx)
-
-
+- **Discord** 質問・相談は [Subako Discord Server](https://discord.gg/PkDFYjyyHX) で受け付けます。<br><br><center>![w:200](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fdiscord.gg%2FPkDFYjyyHX)</center>
 
 ---
 
@@ -44,17 +32,19 @@ Build Agents, Not Infrastructure
 
 ---
 
-<!-- _class: cards -->
+<!-- _class: hex -->
+
+###### Platform
 
 # Subakoとは
 
 AIエージェントの開発に必要なインフラを提供するプラットフォームです。
 
-- **ハーネス** LLM を呼び、ツールを実行する
-- **セッション** 会話の状態を保持するストレージ
-- **サンドボックス** LLM が生成したコードを実行する
-- **MCP** 認証情報の管理
-- **Agent Skills** スキルの管理
+- ![](assets/icons/harness.svg) **ハーネス** *harness* LLM を呼び、ツールを実行する
+- ![](assets/icons/sessions.svg) **セッション** *sessions* 会話の状態を保持するストレージ
+- ![](assets/icons/sandbox.svg) **サンドボックス** *sandbox* LLM が生成したコードを実行する
+- ![](assets/icons/vault.svg) **Vault** *vault* 認証情報の管理
+- ![](assets/icons/skills.svg) **Agent Skills** *skills* スキルの管理
 
 インフラと SDK を提供することで、既存のアプリケーションにエージェント機能を組み込み、新たな体験を提供できます。
 
@@ -82,6 +72,10 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 - ![](assets/members/hironori-kawamoto.png) **Hironori Kawamoto** 川本 博詔 *Software Engineer*
 - ![](assets/members/kosei-matsuyama.png) **Kosei Matsuyama** *Software Engineer*
 - ![](assets/members/ryuji-miyasaka.png) **Ryuji (RJ) Miyasaka**
+
+---
+
+# 代表挨拶
 
 ---
 
@@ -175,7 +169,7 @@ subako workspace use hackathon
 
 # Subako Credit の取得
 
-本日の参加者には $10 相当の Subako Credit を付与します。下記シートに氏名と Org Handle を記入してください。
+本日の参加者には $20 相当の Subako Credit を付与します。下記シートに氏名と Org Handle を記入してください。
 
 ```sh
 subako org credits      # クレジット残高を表示
@@ -183,6 +177,8 @@ subako org show         # 現在の Org 情報を表示
 ```
 
 ![w:200](https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1trHI1-7zHLJ59BzS0ylmAX3wX1Xk36MWApkT-Kp-Zds%2Fedit%3Fusp%3Dsharing)
+
+https://docs.google.com/spreadsheets/d/1trHI1-7zHLJ59BzS0ylmAX3wX1Xk36MWApkT-Kp-Zds/edit?usp=sharing
 
 ---
 
@@ -280,16 +276,16 @@ Subakoを使う上で重要になる3つの概念を整理します。
 ```sh
 # SDK を todo アプリの依存に追加
 npm install --workspace @hackathon/todo \
-  @subako-ai/sdk@0.1.1 @subako-ai/react@0.1.1 @subako-ai/assistant-ui@0.1.1 \
+  @subako-ai/sdk@0.1.2 @subako-ai/react@0.1.2 @subako-ai/assistant-ui@0.1.2 \
   @assistant-ui/react@0.15.19 @assistant-ui/react-markdown@0.14.15 zod@4.6.4
 
-# agent の作成・publish・Origin 許可
+# agent の作成・publish
 npm run agent:publish -- todo
 ```
 
-- 指示は `agents/todo/prompt.md`。publish が `.env.local` の `SUBAKO_AGENT_TODO` を更新する
-- **会話（session）はアプリが作ります。** 出入り口の `src/session.ts` は配置済み
-- `.env.local` が変わったので、開発サーバーを `Ctrl+C` で止めて `npm run dev -- todo` を再起動
+- `agents/todo/prompt.md` がAgentのシステムプロンプトになります。
+- `subako agent list` を実行すると作成されたAgentを確認できます。
+- `.env.local` が変わったので、開発サーバーを `Ctrl+C` で止めて `npm run dev -- todo` を再起動してください。
 
 ---
 
@@ -388,6 +384,93 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 ---
 
+<!-- _class: shots -->
+
+###### SAMPLE APPS
+
+# 2 つのスターター
+
+TODO と同じ形のアプリを 2 つ用意しました。画面もデータもできていて、**サイドバーの枠だけが空いています**。
+
+- ![](assets/screens/ec-overview.png) **EC** `apps/ec` サンプル商品 4 点。比較・カート・購入確認まで手で動きます
+- ![](assets/screens/map-overview.png) **マップ** `apps/map` 渋谷周辺のサンプル地点 4 つ。候補と訪問順を地図に出せます
+
+---
+
+<!-- _class: shot -->
+
+###### 作例 · EC ①
+
+# コーヒーの EC にしてみる
+
+`apps/ec-coffee` は、スターターのデータを 10 種のコーヒー豆に差し替えたものです。
+
+![](assets/screens/ec-coffee-overview.png)
+
+---
+
+<!-- _class: shot -->
+
+###### 作例 · EC ②
+
+# 好みと予算を伝える
+
+「酸味は控えめ、ミルクに合う豆。予算 2,500 円で 3 種の飲み比べセットを」。一覧が 3 点に絞られ、カートに入り、**理由が一言ずつ**返ります。
+
+![](assets/screens/ec-coffee-ai-result.png)
+
+---
+
+<!-- _class: shot -->
+
+###### 作例 · MAP ①
+
+# 渋谷のコーヒー屋を巡る
+
+`apps/map-coffee` は、地点を渋谷の 6 店舗に差し替えたものです。実在の店舗情報と、事前に取得した徒歩経路を持っています。地図は OpenStreetMap。
+
+![](assets/screens/map-coffee-overview.png)
+
+---
+
+<!-- _class: shot -->
+
+###### 作例 · MAP ②
+
+# 条件を言うとコースになる
+
+「緑のあるカフェとコーヒースタンドを巡る 3 店のコースを作って」。候補・訪問順・徒歩経路が地図に描かれ、**合計約 32 分**と返ります。
+
+![](assets/screens/map-coffee-ai-result.png)
+
+---
+
+<!-- _class: shot -->
+
+###### 作例 · MAP ③
+
+# 提案の上から、人が調整する
+
+気になった店を開いて詳細を見る。固定する、順番を入れ替える、外す。AI が出すのは、**人が書き換えられる下書き**です。
+
+![](assets/screens/map-coffee-place-detail.png)
+
+---
+
+<!-- _class: cards -->
+
+###### 作例
+
+# 作例で足したもの
+
+ここまでの 6 枚で、スターターから変えたのはこの 3 つだけです。
+
+- **データ** コーヒー豆 10 種、渋谷の 6 店舗。`metadata` に酸味・焙煎度・店の特徴など、**画面には出さない判断材料**を入れてあります
+- **prompt** 「酸味・焙煎度・産地・予算で選ぶ」「特徴・徒歩時間・滞在時間で並べる」。題材の言葉で数行を書き直しただけです
+- **ツール** 読むツールと、画面を変えるツール。`ec-coffee` は 9 個、`map-coffee` は 5 個。どれも既存の関数を `useTool` で包んだだけです
+
+---
+
 <!-- _class: compact -->
 
 ###### HACK TIME
@@ -405,7 +488,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 | 最初に読むツール | `search_items` | `get_places` |
 | 最初に画面を変えるツール | `show_items` | `show_candidates` |
 
-- **EC / マップの `App.tsx` にも TODO ①〜⑥ があります。場所と書く内容はコメント、コードは自分で書く。** 自分の TODO 版を横に置いて組み立て、行き詰まったら `ec-coffee` / `map-coffee` を見る
+- EC / マップの `App.tsx` にも TODO ①〜⑥ があります。
 - `execute` は画面のボタンと同じ関数を呼ぶ。現在の状態は `catalog.getState()` / `app.getState()` で読む
 - 完成例の全ツールと diff は、リポジトリの `README.md` と `docs/answers.md`
 
