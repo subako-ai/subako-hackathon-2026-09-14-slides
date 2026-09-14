@@ -157,7 +157,7 @@ subako --version
 `<ORG HANDLE>` は自分だけの Org 名に置き換えます。
 
 ```sh
-subako cloud signup --org <ORG HANDLE> --name "Subako Hackathon"
+subako cloud signup --org <ORG HANDLE> --name "<ORG NAME>"
 subako login --org <ORG HANDLE>
 subako whoami
 subako workspace create --name hackathon
@@ -165,6 +165,7 @@ subako workspace use hackathon
 ```
 
 - 表示された URL をブラウザで開いて登録を完了する
+- 初めての場合は "サインアップ" をクリックしてください
 
 ---
 
