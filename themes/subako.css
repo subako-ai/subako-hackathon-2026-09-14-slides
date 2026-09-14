@@ -487,8 +487,9 @@ section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul {
   list-style: none;
   align-content: start;
 }
-/* リード文の直後に来るカードは、他の本文と同じだけ間を空ける */
-section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) h1 + p + ul { margin-top: 28px; }
+/* 見出し・リード文の直後に来るカードは、他の本文と同じだけ間を空ける。
+ * ul 側の margin: 0 が h1 + * の指定に勝つので、ここで明示する。 */
+section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) :is(h1 + ul, h1 + p + ul) { margin-top: 28px; }
 section:is(.cards, .cards-2, .cards-3, .cards-4, .cards-5) ul > li {
   display: block;
   margin: 0;
