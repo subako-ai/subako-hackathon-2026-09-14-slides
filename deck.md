@@ -78,7 +78,71 @@ AIエージェントの開発に必要なインフラを提供するプラット
 
 ---
 
-# 代表挨拶
+<style scoped>
+  /* 左に顔写真、右に肩書き・経歴の 2 段組み。h6 と h1 だけ全幅に渡す */
+  section {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    grid-template-rows: auto auto auto auto auto 1fr;
+    column-gap: 56px;
+    align-content: start;
+  }
+  section > :is(h6, h1) { grid-column: 1 / -1; }
+  section > p:has(img) { grid-column: 1; grid-row: 3 / -1; margin: 30px 0 0; }
+  section > :not(h6):not(h1):not(:has(img)) { grid-column: 2; }
+  section > p:nth-of-type(2) { margin: 30px 0 0; }
+  section h2 { margin: 2px 0 0; }
+  section ul { margin: 24px 0 0; padding: 0; list-style: none; }
+  section li { font-size: 19px; margin: 0 0 8px; }
+  section > p:last-child { margin: 26px 0 0; font-size: 15px; line-height: 1.9; }
+  section > p:last-child strong { display: block; }
+</style>
+
+###### GREETING
+
+# 代表者挨拶
+
+![w:340](assets/members/kento-sato.png)
+
+**Founder / CEO**
+
+## Kento Sato　佐藤 拳斗
+
+- Bain Capital / Portfolio Group
+- DataRobot / Lead Data Scientist
+- Deloitte / Consultant, Data Scientist
+- UC Santa Cruz / Research Scholar
+- Tokyo Tech / Ph.D. Dropout
+
+**過去担当投資先** MASH HOLDINGS · snow peak · TRANCOM · 日本セーフティー · レッドバロン · QUO · Out-Sourcing! · Works Human Intelligence
+
+---
+
+<!-- _class: cards center -->
+
+<style scoped>
+  /* Value は一行ずつなので、カードを中身の高さに詰めて画面の中央に置く */
+  ul > li { min-height: 0; }
+</style>
+
+###### VALUE
+
+# Kikuvi の Value
+
+- **Ship Ship Ship** いち早く多くの価値をプロダクト、サービスを通して届ける
+- **Work Super Hard** 没頭し、世の中に与えるインパクトを情熱を持って取り組む
+- **Be The Owner** 全ての会社の Owner の視点で Equity Value の最大化をする
+
+---
+
+<!-- _class: statement dark -->
+
+<style scoped>
+  section { align-items: center; text-align: center; }
+  section h1 { font-size: 96px; }
+</style>
+
+# Ship Ship Ship
 
 ---
 
