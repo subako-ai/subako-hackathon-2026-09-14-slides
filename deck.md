@@ -304,7 +304,7 @@ npm run dev -- todo
   model=sparrow  label=Sparrow  For simple, high-volume agent tasks.
 ```
 
-- 一覧は `subako model list`
+- 一覧は `subako model-provider list`
 - OpenAI Responses API 対応のモデルと API キーを登録して使うこともできます。この場合クレジットは消費しません（`subako model-provider create`）
 
 ---
