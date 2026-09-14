@@ -52,9 +52,12 @@ AIエージェントの開発に必要なインフラを提供するプラット
 
 # ハッカソンについて
 
-Subako を使ったエージェント開発を体験するハッカソンです。
+自分のアイデアで、アプリを使いやすくするエージェントを作ります。
 
-- Subako の登録、SDK の導入、スキルの整備、MCP の設定まで、一連の流れを体験できます
+- **皆で TODO** 普通の React アプリに SDK とツールを組み込む流れを体験します
+- **チームで EC / Map** コメントを解除して動かし、データと選び方を自分たちの題材に変えます
+- **発展は自由** Skills・MCP・独自ツール・UI も、作品に必要なものから足せます
+- **発表は 60 秒の動画** 誰を助けるかと、実際に画面が変わるところを見せてください
 
 ---
 
@@ -83,14 +86,14 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 
 | 時間 | 内容 |
 | :---- | :---- |
-| 15:00 | イベント準備 |
+| 15:00 | 受付・コーヒー |
 | 15:15 | Subako の説明とハンズオン |
 | 15:45 | 実装時間 |
 | 18:00 | 実装終了・作品提出タイム |
 | 18:15 | 交流時間 |
 | 19:00 | 結果発表 |
-| 19:20 | イベント終了 |
-| 19:30 | 片付け開始 |
+| 19:20 | イベント終了・片付け |
+| 19:30 | 完全撤収 |
 
 ---
 
@@ -111,7 +114,7 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 # ハンズオンの流れ
 
 - **1. 環境** リポジトリを Fork し、Codespaces かローカルで開く
-- **2. アカウント** CLI を入れて、Subako のアカウント・Org・API キーを作る
+- **2. アカウント** CLI で Subako に登録し、Org・workspace・API キーを用意する
 - **3. 起動** `.env.local` を設定して TODO アプリを立ち上げる
 - **4. 組み込み** SDK を入れて agent を publish し、`useTool` でツールを登録する
 
@@ -208,10 +211,10 @@ subako api-key mint \
 # TODO アプリの起動
 
 ```sh
-npm install
+npm ci         # Codespaces は実行済み
 npm run setup   # .env.local を作成
 
-# .env.local に記入
+# 以下は .env.local をエディターで開いて記入
 SUBAKO_API_KEY=発行したキー
 SUBAKO_MODEL_PROVIDER_ID=01a07f90-238c-7de3-b55e-6fe53de063cf
 SUBAKO_MODEL_ID=hawk
@@ -261,11 +264,11 @@ npm run dev -- todo
 
 # Agent, Session, Tool
 
-Subakoを使う上で重要になる3つの概念を整理します。
+アプリに組み込むときに使う 3 つの概念です。
 
-- **Agent** 何をする人か。モデル・指示（`prompt.md`）・MCP をまとめた設定。`agent:publish` するたびに version が増える。
-- **Session** 1つの会話履歴。Agentに紐付く。履歴はSubako側に残る。
-- **Tool** Agentが行うことのできる操作。*Client* toolsは、そのうちブラウザなどクライアントの関数をエージェントに提供する仕組みを指します。
+- **Agent** モデル・指示・Skills・MCP をまとめた設定。設定を変更して publish すると、新しい version を作ります。
+- **Session** Agent に紐付く会話。履歴は Subako に残ります。「新しいセッション」で、最新の設定を使う会話に切り替えます。
+- **Tool** Agent が呼べる関数。Client tools は、ブラウザーなどで動く関数をエージェントに提供します。
 
 ---
 
@@ -293,23 +296,22 @@ npm run agent:publish -- todo
 
 ###### STEP 8
 
-# App.tsx の TODO を上から外す
+# App.tsx の作業箇所
 
-`apps/todo/src/App.tsx` に ①〜⑥ の TODO コメントを置いてあります。上から順に外していけば動きます。サイドバーの枠は最初からあります。
+`apps/todo/src/App.tsx` で `TODO(` を検索すると、手順 1〜6 が見つかります。
 
-| | 場所 | やること |
+| 目印 | 場所 | やること |
 |---|---|---|
-| ① | 先頭 | SDK と `session.ts` を import（`session.css` は済み） |
-| ② | `storageKey` の下 | `SubakoSessionClient` と会話の保存キーを作る |
-| ③ | `App` の直前 | `TodoAssistant` と `list_todos` / `add_todo` |
-| ④ | ③ の中 | `set_todo_done` を自分で書く → STEP 9 |
-| ⑤ | `App` の中 | `useSessionId` で使う会話を用意する |
-| ⑥ | サイドバーの中 | `<p>` と、`{/*`・`*/}` の行を消す |
+| `TODO(1)` | 先頭 | SDK と `session.ts` の import を有効にする |
+| `TODO(2)` | `storageKey` の下 | `SubakoSessionClient` と会話の保存キーを有効にする |
+| `TODO(3)` | `App` の直前 | `TodoAssistant` と `list_todos` / `add_todo` を有効にする |
+| `TODO(4)` | 手順 3 の関数内 | `set_todo_done` を書く（次のスライド） |
+| `TODO(5)` | `App` の中 | `useSessionId` で使う会話を用意する |
+| `TODO(6)` | サイドバーの中 | 案内の `<p>` を消し、その下の JSX コメントを解除する |
 
-- **④ 以外はコメントを外すだけです。**
-- `useTool` が「AI に任せる操作」。`execute` は既存の `add(title)` を呼ぶだけ
-- `schema` の Zod が引数の形を AI に伝え、実行前に検証する
-- ブラウザーは API キーを持たない。会話の ID は `localStorage`、接続トークンは開発サーバーから受け取る
+- **手順 4 以外はコメントを解除するだけです。** 手順 6 は `{/*` と `*/}` の行を消します
+- `useTool` の `execute` から、画面でも使う関数を呼びます。`schema` は Zod で定義します
+- 「新しいセッション」と、会話の作成に失敗したときの再試行も含まれます
 
 ---
 
@@ -317,7 +319,7 @@ npm run agent:publish -- todo
 
 ###### STEP 9
 
-# TODO ④ を自分で書く
+# TODO(4)：完了ツール
 
 ```tsx
 useTool(client, 'set_todo_done', {
@@ -332,10 +334,10 @@ useTool(client, 'set_todo_done', {
 });
 ```
 
-- ③ の `useTool` を真似て、既存の `complete(id, done)` を呼ぶツールを足す
-- 「サンプルを起動する、テーマを決める、発表を練習する、を追加して」で 3 件増える
-- 「サンプルを起動する、は完了した」で完了になる
-- 手で別の TODO を完了にしてから「残りを教えて」と聞くと、変更が反映されている
+- 手順 3 の `useTool` と同じ形で、既存の `complete(id, done)` を呼ぶ
+- 「発表を練習する、を追加して」「発表を練習する、は完了した」で動作を確かめる
+- 手で別の TODO を完了にしてから「残りを教えて」と聞く
+- 「新しいセッション」で会話が切り替わる。TODO のデータは残る
 
 ---
 
@@ -343,7 +345,7 @@ useTool(client, 'set_todo_done', {
 
 ###### HANDS-ON
 
-# ① つなぐまで
+# 1. つなぐまで
 
 APIキーはブラウザーへ渡しません。会話の作成と token の発行を開発サーバーに任せます。
 
@@ -355,7 +357,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 ###### HANDS-ON
 
-# ② 会話のたびに
+# 2. 会話のたびに
 
 `useTool` で登録した既存の関数が、LLM から呼ばれて画面を変えます。
 
@@ -377,10 +379,10 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 ###### HACK TIME
 
-# 2 つのコース
+# サンプルで工夫する、自分のアプリで挑戦する
 
-- **サンプルアプリを使う** スターターの `ec` か `map` を選び、TODO と同じ手順でエージェントを組み込む。データと prompt を自分の題材に変える。`ec-coffee` / `map-coffee` を参考として、データを置き換えたり、プロンプトを変えたり、ツールを追加したりする。
-- **上級: 自分のアプリ** 既存のアプリに Subako Agent を組み込む。流れは同じ。API キー → publish → SDK → `useSessionId` → `useTool` → チャット
+- **EC / Map を使う** 最初の 15 分で、用意した連携コードのコメントを解除してデモを動かします。そのあと、題材のデータと prompt を工夫します。Skills・MCP の追加も自由です。
+- **自分のアプリを使う** TODO で体験した手順を自分のアプリへ。SDK を入れ、会話をつなぎ、既存の操作関数を `useTool` で登録します。EC / Map への独自ツール・UI の追加も歓迎です。
 
 ---
 
@@ -390,7 +392,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 # 2 つのスターター
 
-TODO と同じ形のアプリを 2 つ用意しました。画面もデータもできていて、**サイドバーの枠だけが空いています**。
+どちらも汎用データで手動操作できます。会話とツールのコードは、`App.tsx` に**コメントアウトした状態で用意済み**です。
 
 - ![](assets/screens/ec-overview.png) **EC** `apps/ec` サンプル商品 4 点。比較・カート・購入確認まで手で動きます
 - ![](assets/screens/map-overview.png) **マップ** `apps/map` 渋谷周辺のサンプル地点 4 つ。候補と訪問順を地図に出せます
@@ -461,70 +463,243 @@ TODO と同じ形のアプリを 2 つ用意しました。画面もデータも
 
 ###### 作例
 
-# 作例で足したもの
+# コーヒーの作例で変えたところ
 
-ここまでの 6 枚で、スターターから変えたのはこの 3 つだけです。
+スターターにも同じ操作ツールがあります。まずは、データと指示で自分の題材を表現できます。
 
-- **データ** コーヒー豆 10 種、渋谷の 6 店舗。`metadata` に酸味・焙煎度・店の特徴など、**画面には出さない判断材料**を入れてあります
-- **prompt** 「酸味・焙煎度・産地・予算で選ぶ」「特徴・徒歩時間・滞在時間で並べる」。題材の言葉で数行を書き直しただけです
-- **ツール** 読むツールと、画面を変えるツール。`ec-coffee` は 9 個、`map-coffee` は 5 個。どれも既存の関数を `useTool` で包んだだけです
-
----
-
-<!-- _class: compact -->
-
-###### HACK TIME
-
-# EC / マップの進め方
-
-| | EC | マップ |
-|---|---|---|
-| スターター / 完成例 | `apps/ec` / `apps/ec-coffee` | `apps/map` / `apps/map-coffee` |
-| 3 コマンドの `<app>` | `ec`（`--workspace @hackathon/ec`） | `map`（`--workspace @hackathon/map`） |
-| ポート | 5177 | 5175 |
-| データ | `apps/ec/data/catalog.json` | `apps/map/src/data.json` |
-| prompt | `agents/ec/prompt.md` | `agents/map/prompt.md` |
-| 画面の操作関数 | `useCatalog` が返す `catalog` | `useMapApp` が返す `app` |
-| 最初に読むツール | `search_items` | `get_places` |
-| 最初に画面を変えるツール | `show_items` | `show_candidates` |
-
-- EC / マップの `App.tsx` にも TODO ①〜⑥ があります。
-- `execute` は画面のボタンと同じ関数を呼ぶ。現在の状態は `catalog.getState()` / `app.getState()` で読む
-- 完成例の全ツールと diff は、リポジトリの `README.md` と `docs/answers.md`
+- **データ** コーヒー豆 10 種、渋谷の 6 店舗。`metadata` に酸味・焙煎度・店の特徴など、画面には出さない判断材料を入れています
+- **prompt** 好みや予算をどう聞くか、何を比べて選ぶか、理由をどう伝えるか。題材に合わせて指示を変えています
+- **画面・経路** 題材に合う文言や表示を調整。Map の完成例には事前取得した徒歩経路もあります。スターターの点線は訪問順、時間は概算です
 
 ---
 
 <!-- _class: compact -->
 
-###### HACK TIME
+###### HACK TIME · 最初の 15 分
 
-# 2 時間の目安
+# EC / Map の起動とコメント解除
 
-| 時刻 | やること | 見るもの |
-|---|---|---|
-| 15:45 | 3 コマンドで起動し、手動操作を確認 | |
-| 15:55 | ①②⑤⑥ を書いて、空の会話をサイドバーに出す | 自分の `apps/todo/src/App.tsx` |
-| 16:15 | ③ 読むツール 1 つ。AI に「何がある？」と聞ける | `catalog.getState()` / `app.getState()` |
-| 16:30 | ③ 画面を変えるツール 1 つ。**候補を表示して選ぶ、まで動く** | `catalog.showItems` / `app.showCandidates` |
-| 16:45 | データを自分の題材に置き換え。項目名は変えず `metadata` に足す | `catalog.json` / `data.json` |
-| 17:10 | prompt を書き換え → publish → 「新しいセッション」 | `agents/<app>/prompt.md` |
-| 17:20 | ④ 操作ツール（カート・訪問順・固定）、MCP、画面文言。**18:00 で実装終了** | 完成例と `docs/answers.md` |
-| 18:00 | 60 秒のデモ動画を撮って、18:15 までにフォームから提出 | 提出スライド |
+`<app>` を `ec` または `map` に置き換え、リポジトリのルートで実行します。
 
-- マップの出発地は渋谷駅で固定。別の街にするなら `domain.ts` の `SHIBUYA_STATION` も変える
+```sh
+npm install --workspace @hackathon/<app> \
+  @subako-ai/sdk@0.1.2 @subako-ai/react@0.1.2 @subako-ai/assistant-ui@0.1.2 \
+  @assistant-ui/react@0.15.19 @assistant-ui/react-markdown@0.14.15 zod@4.6.4
+npm run agent:publish -- <app>
+npm run dev -- <app>
+```
+
+- `apps/<app>/src/App.tsx` で `TODO(` を検索し、**手順 1〜6 のコードをコメント解除**。EC / Map は書き足し不要です
+- 手順 3 の関数は、中の手順 4 もまとめて解除します
+- 手順 6 は案内の `<p>` を消し、その下の `{/*` と `*/}` の行を消します
+- EC は **5177**、Map は **5175**。Codespaces は Ports から開きます
 
 ---
 
 <!-- _class: cards -->
 
-###### HACK TIME
+###### HACK TIME · 最初の 15 分
 
-# 工夫のヒント
+# 最初に動かすデモ
 
-- **データ** `catalog.json` / `data.json` を自分の業界に置き換える。`metadata` に画面に出さない判断材料を入れる
-- **prompt** `agents/<app>/prompt.md` を書き換えて publish。**そのあと「新しいセッション」を押すと新しい指示で会話が始まります**
-- **MCP** `presets/mcp/exa.json`（Web 検索）や `eris.json`（現在の天気）を `agents/<app>/mcp.json` にコピーして publish し直し、「新しいセッション」
-- **ツール・UI** カートや訪問順の操作、比較表、独自 API の追加など
+まずは汎用データのまま、会話から画面が変わることを確認します。
+
+- **EC** 「商品AとBを比較して、予算2,000円で各1点をカートに入れて」<br><br>比較パネルに A・B が並び、カートの合計が **1,700 円**になります。購入確定は画面のボタンで行うデモです。
+- **Map** 「地点AとCを候補にして、A→Cの順で回りたい。Aは固定して」<br><br>候補と訪問順が地図に出て、**A が固定**されます。手で順番を変えたあとも、AI に相談できます。
+
+「新しいセッション」で会話を切り替えても、カートや訪問順は残ります。
+
+---
+
+###### HACK TIME · アイデア
+
+# チームで決める 4 行
+
+**発表で入力する依頼文を 1 つ決め、同じ依頼で改善を確かめます。**
+
+| 決めること | コーヒーの EC なら |
+|---|---|
+| 誰が、どんな場面で使うか | 好みが違う家族で、飲み比べ用の豆を買いたい |
+| エージェントが優先する条件 | 合計予算を守り、味が偏らない組み合わせにする |
+| metadata に入れる判断材料 | 酸味、焙煎度、フレーバーノート、ミルクとの相性 |
+| デモの依頼文と期待する画面 | 「酸味控えめで、予算内の 3 種セットを」。候補とカートが変わる |
+
+コードを増やさなくても、**誰のために、どう選ぶか**で作品の違いが出ます。
+
+---
+
+<!-- _class: compact -->
+
+###### HACK TIME · 進め方
+
+# 動くデモを残しながら工夫する
+
+時間は目安です。開始が遅くなった場合も、18:00 に実装を終えます。
+
+| 順 | やること | 目安 |
+|---|---|---|
+| 1 | コメントを解除し、汎用データで最初のデモを動かす | 15 分 |
+| 2 | チームで 4 行を決める | 10 分 |
+| 3 | 題材のデータを作り、アプリに入れる | 25 分 |
+| 4 | prompt で選び方を工夫。必要なら Skills に手順をまとめる | 30 分 |
+| 5 | デモを改善。必要なら MCP・独自ツール・UI を追加する | 35 分 |
+| 6 | 発表の依頼文で通して動かし、見せ方を整える | 20 分 |
+
+**18:00 に実装終了。18:00〜18:15 に録画し、フォームへ提出します。**
+
+---
+
+<!-- _class: compact -->
+
+###### HACK TIME · データ
+
+# データを変えるファイル
+
+運営が案内する **Web のデータ生成チャット**で JSON を作り、エディターでファイルに貼り付けます。
+
+| | EC | Map |
+|---|---|---|
+| 編集するファイル | `apps/ec/data/catalog.json` | `apps/map/src/data.json` |
+| コーヒーの見本 | `apps/ec-coffee/data/catalog.json` | `apps/map-coffee/src/data.json` |
+| 前のデータが残る場合に消す保存キー | `subako-hackathon:ec:v1` | `hackathon-map-v1` |
+
+1. 既存の JSON を見本としてチャットに渡し、まず **4〜6 件**を生成。項目名と型は維持します
+2. 独自の判断材料は `metadata` に追加。公開してよい情報や架空の情報を使います
+3. ファイルを保存し、画面で確認。Map は座標も地図で確認します
+
+前のデータが出るときは、DevTools の Application / Local Storage で上のキーを削除して再読み込みします。「新しいセッション」は会話だけを切り替えます。
+
+---
+
+###### HACK TIME · データ
+
+# 業界の知識を判断材料にする
+
+`metadata` は画面に直接表示しない情報です。ツールが読み取り、選ぶ理由に使えます。
+
+| 題材の例 | metadata の例 | 見せたい体験 |
+|---|---|---|
+| メーカーの EC | 対応機種、用途、素材、手入れのしやすさ | 使用条件に合う商品を比べ、組み合わせて提案 |
+| 広告企画の Map | 会場の雰囲気、収容人数、撮影設備 | 企画に合う会場を絞り、下見の順番を作る |
+| コーヒーの EC / Map | 味の特徴、ミルクとの相性、席や店の雰囲気 | 好みから飲み比べセットや店巡りを提案 |
+
+データを増やす前に、**その属性で提案がどう変わるか**を 1 つ確かめてください。
+
+---
+
+<!-- _class: code-text -->
+
+###### HACK TIME · PROMPT
+
+# 選び方を prompt に書く
+
+`agents/<app>/prompt.md` を編集します。既存のツール名と役割は残し、題材の判断基準を加えます。
+
+```md
+## 飲み比べセットの選び方
+- 予算と苦手な味が不明なら確認する。
+- 商品の metadata を読んで比較する。
+- 酸味が苦手なら酸味の弱い豆を優先する。
+- 合計予算を守り、味の違う 3 種を選ぶ。
+- 候補を画面に出し、理由を一言ずつ伝える。
+- 購入確定は利用者の画面操作に任せる。
+```
+
+- チームで決めた依頼文を使い、質問・選択・説明・画面操作を確認します
+- `npm run agent:publish -- <app>` で反映し、開発サーバーを再起動します
+- **新しいセッション** で変更後の指示を試します
+
+---
+
+<!-- _class: code-text -->
+
+###### HACK TIME · SKILLS（任意）
+
+# 判断手順を Skill にまとめる
+
+`skills/decision-guide/SKILL.md` に、選び方の雛形があります。題材に合わせて編集します。
+
+```sh
+# API キーと同じ workspace を選ぶ
+subako workspace list
+subako workspace use <workspace-id>
+
+# 編集した Skill を登録する
+subako skill create skills/decision-guide
+```
+
+- 比較する属性、選ぶ順序、情報が足りないときの対応を書きます
+- 例：対応機種で候補を絞り、予算内で手入れのしやすいものを選ぶ
+- コマンドが返した **Skill の ID** を、次の設定で使います
+- prompt だけで十分なら、この手順は飛ばせます
+
+---
+
+<!-- _class: code-text -->
+
+###### HACK TIME · SKILLS（任意）
+
+# Skill を Agent に登録する
+
+`agents/<app>/skills.json` の `[]` を、返された ID を使って書き換えます。
+
+```json
+[
+  {
+    "name": "decision-guide",
+    "skill_id": "<skill-id>",
+    "version": "latest"
+  }
+]
+```
+
+- `prompt.md` に「提案するときは decision-guide の手順を使う」と加えます
+- `npm run agent:publish -- <app>` のあと、開発サーバーを再起動し「新しいセッション」
+- 本文の更新は `subako skill push <skill-id> skills/decision-guide`
+- `latest` は新しいセッションで反映。`skills.json` を変えた場合は再 publish も必要です
+
+---
+
+<!-- _class: code-text -->
+
+###### HACK TIME · MCP（任意）
+
+# 外部の情報を判断に使う
+
+まず `prompt.md` に何を調べるかを書きます。例：「現在の天気を調べ、雨なら屋内の候補を優先する」。
+
+```sh
+# EC に天気の MCP を追加する例
+# Map なら ec を map に置き換える
+cp presets/mcp/eris.json agents/ec/mcp.json
+
+npm run agent:publish -- ec
+# 起動中なら Ctrl+C で止めて再起動
+npm run dev -- ec
+```
+
+- **天気** `presets/mcp/eris.json`。現在の天気を調べる設定です
+- **Web 検索** `presets/mcp/exa.json`。Web の情報を調べたいときに使います
+- 2 つ使う場合は、設定を同じ JSON 配列へ追加します
+- 再起動後は「新しいセッション」。不要なら `mcp.json` は `[]` のままで進められます
+
+---
+
+<!-- _class: cards -->
+
+###### HACK TIME · 発展
+
+# 独自の操作や画面も追加できる
+
+EC には比較・カート・購入確認、Map には候補・訪問順・固定のツールが入っています。
+
+- **独自ツール** 配送日の見積もりや独自 API など、作品に必要な操作を追加。Zod の `schema` と、既存の関数を呼ぶ `execute` で登録します
+- **画面の工夫** 選定理由を一覧に出す、予算の残りを表示する、実際の徒歩経路を描く。人が手で調整できるところも考えてみてください
+- **自分のアプリ** ボタンで使う関数をツールとして登録。状態は既存の読み取り関数から取得し、連続操作でも最新の値を返します
+
+EC は `catalog.getState()`、Map は `app.getState()`。差分はリポジトリの [`docs/answers.md`](https://github.com/subako-ai/subako-hackathon-2026-09-14/blob/main/docs/answers.md) にあります。
+
+<!-- Map の出発地を別の街に変える場合は、apps/map/src/domain.ts の SHIBUYA_STATION と表示名も変更します。 -->
 
 ---
 

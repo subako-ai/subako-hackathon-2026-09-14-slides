@@ -786,5 +786,8 @@ section.compact li { font-size: 18px; margin-bottom: 6px; }
 section.compact table { font-size: 14.5px; line-height: 1.5; }
 section.compact :is(th, td) { padding: 7px 14px; }
 section.compact h1 + p { font-size: 17px; }
+
+/* カードの下の補足文に余白を置く。 */
+section.cards > ul + p { margin-top: 16px; }
 section.plain::before,
 section.plain::after { visibility: hidden; }
