@@ -123,7 +123,7 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 
 # リポジトリを Fork する
 
-`subako-ai/subako-hackathon-2026-09-14` を自分のアカウントに Fork します。
+[`subako-ai/subako-hackathon-2026-09-14`](https://github.com/subako-ai/subako-hackathon-2026-09-14) を自分のアカウントに Fork します。
 
 - **Codespaces** 環境構築に自信がない人はこちら。Fork 先で Code → Codespaces → Create codespace。CLI のインストール・`npm ci`・`.env.local` の準備まで自動で走る
 - **ローカル** macOS / Linux に Node.js 22.12 以上を用意して `git clone`。CLI は次のステップで入れる
@@ -369,7 +369,7 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 # ハックタイム
 
-15:45 – 18:00。自分の題材でエージェントを作ります。
+18:00まで。自分の題材でエージェントを作ります。
 
 ---
 
@@ -525,25 +525,6 @@ TODO と同じ形のアプリを 2 つ用意しました。画面もデータも
 - **prompt** `agents/<app>/prompt.md` を書き換えて publish。**そのあと「新しいセッション」を押すと新しい指示で会話が始まります**
 - **MCP** `presets/mcp/exa.json`（Web 検索）や `eris.json`（現在の天気）を `agents/<app>/mcp.json` にコピーして publish し直し、「新しいセッション」
 - **ツール・UI** カートや訪問順の操作、比較表、独自 API の追加など
-
----
-
-<!-- _class: compact -->
-
-###### HELP
-
-# 困ったとき
-
-| 見えるもの | 直し方 |
-|---|---|
-| `SUBAKO_API_KEY を入力してください` | `.env.local` にキーを貼る。publish はブラウザーを開かず、この行だけ見て止まる |
-| サイドバーが「会話を準備できませんでした」 | キー・publish 後に開発サーバーを再起動したか。`curl -X POST 127.0.0.1:<port>/__subako/session` の返事を読む |
-| 「接続できません。agentのOrigin設定…」 | 開いている URL のポートが自分のアプリのものか。別 Origin なら `SUBAKO_EXTRA_ORIGINS` |
-| prompt を変えたのに応答が変わらない | publish → 「新しいセッション」。既存の会話は古い version のまま |
-| JSON を変えたのに画面が変わらない | `localStorage` に前の状態が残っている。DevTools で消して再読み込み |
-| `getState` が無いと言われる | 完成例を貼るときは `useCatalog.ts` / `use-map-app.ts` の `getState` を確認 |
-
-- 詰まったら近くの運営か Discord へ。リポジトリの `README.md` に同じ表があります
 
 ---
 
