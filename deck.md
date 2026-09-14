@@ -70,8 +70,8 @@ Subako を使ったエージェント開発を体験するハッカソンです�
 - ![](assets/members/takumi-okoshi.png) **Takumi Okoshi** 大越 拓実 *AI/ML Engineer*
 - ![](assets/members/taka-nagai.png) **Takayuki Nagai** 長井 崇行 *Founding Designer*
 - ![](assets/members/hironori-kawamoto.png) **Hironori Kawamoto** 川本 博詔 *Software Engineer*
-- ![](assets/members/kosei-matsuyama.png) **Kosei Matsuyama** *Software Engineer*
-- ![](assets/members/ryuji-miyasaka.png) **Ryuji (RJ) Miyasaka**
+- ![](assets/members/kosei-matsuyama.png) **Kosei Matsuyama** 松山 皓星 *Software Engineer*
+- ![](assets/members/ryuji-miyasaka.png) **Ryuji (RJ) Miyasaka** 宮坂 龍司 *Customer Success*
 
 ---
 
