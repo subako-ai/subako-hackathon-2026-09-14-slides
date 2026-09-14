@@ -217,7 +217,7 @@ npm run setup   # .env.local を作成
 
 # .env.local に記入
 SUBAKO_API_KEY=発行したキー
-SUBAKO_MODEL_PROVIDER_ID=01a07f90-...
+SUBAKO_MODEL_PROVIDER_ID=01a07f90-238c-7de3-b55e-6fe53de063cf
 SUBAKO_MODEL_ID=hawk
 
 npm run dev -- todo
@@ -225,7 +225,8 @@ npm run dev -- todo
 
 - ローカルは `http://127.0.0.1:5173`、Codespaces は Ports の 5173
 - **`VITE_` が付かないキーはブラウザーへ渡りません。** 使うのは開発サーバーだけ
-- キーが空でも TODO の手動操作はできる
+- キーが空でも TODO の手動操作はできる。サイドバーは空のまま
+- 以降のコマンドは **2 つ目のターミナル** で打つ。`Ctrl+C` で止めなくてよい
 - `apps/todo/src/App.tsx` の `add` と `complete` がどこから呼ばれているか探しておく
 
 ---
@@ -288,7 +289,7 @@ npm run agent:publish -- todo
 
 - 指示は `agents/todo/prompt.md`。publish が `.env.local` の `SUBAKO_AGENT_TODO` を更新する
 - **会話（session）はアプリが作ります。** 出入り口の `src/session.ts` は配置済み
-- publish 後は `Ctrl+C` で止めて `npm run dev -- todo` を再起動
+- `.env.local` が変わったので、開発サーバーを `Ctrl+C` で止めて `npm run dev -- todo` を再起動
 
 ---
 
@@ -302,17 +303,17 @@ npm run agent:publish -- todo
 
 | | 場所 | やること |
 |---|---|---|
-| ① | 先頭 | SDK・`session.ts`・`session.css` を import |
+| ① | 先頭 | SDK と `session.ts` を import（`session.css` は済み） |
 | ② | `storageKey` の下 | `SubakoSessionClient` と会話の保存キーを作る |
 | ③ | `App` の直前 | `TodoAssistant` と `list_todos` / `add_todo` |
 | ④ | ③ の中 | `set_todo_done` を自分で書く → STEP 9 |
 | ⑤ | `App` の中 | `useSessionId` で使う会話を用意する |
-| ⑥ | サイドバーの中 | 置いてある `<p>` を会話に差し替える |
+| ⑥ | サイドバーの中 | `<p>` と、`{/*`・`*/}` の行を消す |
 
 - **④ 以外はコメントを外すだけです。**
 - `useTool` が「AI に任せる操作」。`execute` は既存の `add(title)` を呼ぶだけ
 - `schema` の Zod が引数の形を AI に伝え、実行前に検証する
-- 会話は `useSessionId` が作り、ID を `localStorage` に覚える。ブラウザはAPIキーを持たず、セッションに閉じたトークンをVite Dev Serverから取得します。
+- ブラウザーは API キーを持たない。会話の ID は `localStorage`、接続トークンは開発サーバーから受け取る
 
 ---
 
@@ -396,14 +397,38 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 | | EC | マップ |
 |---|---|---|
 | スターター / 完成例 | `apps/ec` / `apps/ec-coffee` | `apps/map` / `apps/map-coffee` |
+| 3 コマンドの `<app>` | `ec`（`--workspace @hackathon/ec`） | `map`（`--workspace @hackathon/map`） |
+| ポート | 5177 | 5175 |
 | データ | `apps/ec/data/catalog.json` | `apps/map/src/data.json` |
 | prompt | `agents/ec/prompt.md` | `agents/map/prompt.md` |
+| 画面の操作関数 | `useCatalog` が返す `catalog` | `useMapApp` が返す `app` |
 | 最初に読むツール | `search_items` | `get_places` |
 | 最初に画面を変えるツール | `show_items` | `show_candidates` |
 
-- SDK インストール → `npm run agent:publish -- ec` → `npm run dev -- ec`。TODO と同じ 3 コマンド
-- サイドバーの枠と `session.ts` はスターターにあります。`session-content` の中身を差し替えます
-- 16:30 までに「候補を表示して選ぶ」まで動かすのが目安
+- **EC / マップの `App.tsx` にも TODO ①〜⑥ があります。場所と書く内容はコメント、コードは自分で書く。** 自分の TODO 版を横に置いて組み立て、行き詰まったら `ec-coffee` / `map-coffee` を見る
+- `execute` は画面のボタンと同じ関数を呼ぶ。現在の状態は `catalog.getState()` / `app.getState()` で読む
+- 完成例の全ツールと diff は、リポジトリの `README.md` と `docs/answers.md`
+
+---
+
+<!-- _class: compact -->
+
+###### HACK TIME
+
+# 2 時間の目安
+
+| 時刻 | やること | 見るもの |
+|---|---|---|
+| 15:45 | 3 コマンドで起動し、手動操作を確認 | |
+| 15:55 | ①②⑤⑥ を書いて、空の会話をサイドバーに出す | 自分の `apps/todo/src/App.tsx` |
+| 16:15 | ③ 読むツール 1 つ。AI に「何がある？」と聞ける | `catalog.getState()` / `app.getState()` |
+| 16:30 | ③ 画面を変えるツール 1 つ。**候補を表示して選ぶ、まで動く** | `catalog.showItems` / `app.showCandidates` |
+| 16:45 | データを自分の題材に置き換え。項目名は変えず `metadata` に足す | `catalog.json` / `data.json` |
+| 17:10 | prompt を書き換え → publish → 「新しいセッション」 | `agents/<app>/prompt.md` |
+| 17:20 | ④ 操作ツール（カート・訪問順・固定）、MCP、画面文言 | 完成例と `docs/answers.md` |
+| 17:45 | デモ動画を撮る。提出は 18:15 まで | |
+
+- マップの出発地は渋谷駅で固定。別の街にするなら `domain.ts` の `SHIBUYA_STATION` も変える
 
 ---
 
@@ -415,8 +440,27 @@ APIキーはブラウザーへ渡しません。会話の作成と token の発�
 
 - **データ** `catalog.json` / `data.json` を自分の業界に置き換える。`metadata` に画面に出さない判断材料を入れる
 - **prompt** `agents/<app>/prompt.md` を書き換えて publish。**そのあと「新しいセッション」を押すと新しい指示で会話が始まります**
-- **MCP** `presets/mcp/exa.json`（Web 検索）や `eris.json`（現在の天気）を `agents/<app>/mcp.json` にコピー
+- **MCP** `presets/mcp/exa.json`（Web 検索）や `eris.json`（現在の天気）を `agents/<app>/mcp.json` にコピーして publish し直し、「新しいセッション」
 - **ツール・UI** カートや訪問順の操作、比較表、独自 API の追加など
+
+---
+
+<!-- _class: compact -->
+
+###### HELP
+
+# 困ったとき
+
+| 見えるもの | 直し方 |
+|---|---|
+| `SUBAKO_API_KEY を入力してください` | `.env.local` にキーを貼る。publish はブラウザーを開かず、この行だけ見て止まる |
+| サイドバーが「会話を準備できませんでした」 | キー・publish 後に開発サーバーを再起動したか。`curl -X POST 127.0.0.1:<port>/__subako/session` の返事を読む |
+| 「接続できません。agentのOrigin設定…」 | 開いている URL のポートが自分のアプリのものか。別 Origin なら `SUBAKO_EXTRA_ORIGINS` |
+| prompt を変えたのに応答が変わらない | publish → 「新しいセッション」。既存の会話は古い version のまま |
+| JSON を変えたのに画面が変わらない | `localStorage` に前の状態が残っている。DevTools で消して再読み込み |
+| `getState` が無いと言われる | 完成例を貼るときは `useCatalog.ts` / `use-map-app.ts` の `getState` を確認 |
+
+- 詰まったら近くの運営か Discord へ。リポジトリの `README.md` に同じ表があります
 
 ---
 
