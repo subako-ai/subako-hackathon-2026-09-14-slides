@@ -216,8 +216,6 @@ npm run setup   # .env.local を作成
 
 # 以下は .env.local をエディターで開いて記入
 SUBAKO_API_KEY=発行したキー
-SUBAKO_MODEL_PROVIDER_ID=01a07f90-238c-7de3-b55e-6fe53de063cf
-SUBAKO_MODEL_ID=hawk
 
 npm run dev -- todo
 ```
